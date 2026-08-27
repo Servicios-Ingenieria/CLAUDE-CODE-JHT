@@ -6,10 +6,17 @@
   assets/js/includes.js, y su comportamiento (menú móvil, header que se
   oculta al hacer scroll) lo controla assets/js/menu.js.
   DÓNDE SE COLOCA: justo después de <body> en cada página.
-  CÓMO SE RELACIONA: los enlaces son rutas relativas ("", "nosotros/",
-  etc.) que se resuelven contra la etiqueta <base> declarada en el <head>
-  de cada página (ver comentario ahí). Gracias a eso, este mismo
-  fragmento funciona igual sin importar desde qué subcarpeta se incluya.
+  RUTAS: este archivo se escribe en forma "canónica", es decir, como si se
+  incluyera desde la raíz del sitio (href="nosotros/", src="assets/...",
+  etc., sin "../"). La página que lo incluye la mayoría de las veces está
+  UN nivel más abajo (nosotros/, servicios/, contacto/, etc.), así que
+  assets/js/includes.js corrige automáticamente estos enlaces con el
+  prefijo "../" que corresponda, tomando como referencia la propia
+  profundidad con la que la página pidió este fragmento (el valor de su
+  atributo data-include, ej. "../components/header.html"). Así el mismo
+  archivo fuente sirve para index.html (profundidad 0) y para
+  nosotros/index.html o servicios/tanques.html (profundidad 1) sin
+  mantener copias duplicadas. Ver el detalle en assets/js/includes.js.
   PENDIENTE (marcar antes de producción): reemplazar assets/img/logo.svg
   por el logotipo real de JHT Ingeniería cuando el cliente lo entregue.
 -->

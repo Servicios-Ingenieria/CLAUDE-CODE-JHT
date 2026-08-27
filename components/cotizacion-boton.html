@@ -9,6 +9,10 @@
   CÓMO SE RELACIONA: los estilos vienen de .btn / .btn--cotizacion en
   assets/css/styles.css. El href apunta a la página de Contacto mientras
   no exista el flujo de cotización real.
+  RUTAS: escrito en forma canónica (href="contacto/", como si viviera en
+  la raíz); assets/js/includes.js le añade el prefijo "../" que
+  corresponda según la profundidad de la página que terminó incluyéndolo
+  (este archivo llega anidado dentro de header.html).
 -->
 <a href="contacto/" class="btn btn--cotizacion" data-fase="2" title="Disponible con lógica funcional en la Fase 2 del proyecto">
   Solicitar Cotización

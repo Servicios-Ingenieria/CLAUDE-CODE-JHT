@@ -54,11 +54,11 @@
 
     // Resalta el enlace correspondiente a la página actual comparando el
     // pathname ya resuelto por el navegador (enlace.href, no el atributo
-    // crudo): los enlaces del menú son rutas relativas que se resuelven
-    // contra la etiqueta <base> del documento (ver comentario en el
-    // <head> de cada página), así que comparar el atributo tal cual
-    // fallaría en cuanto el sitio vive bajo una subruta (p. ej. GitHub
-    // Pages "usuario.github.io/repo/").
+    // crudo): los enlaces del menú son rutas relativas normales, y el
+    // navegador ya les aplicó el prefijo "../" que haga falta al
+    // calcular enlace.href, así que comparar el atributo tal cual (antes
+    // de resolver) daría un falso negativo en cuanto el sitio viva bajo
+    // una subruta (p. ej. GitHub Pages "usuario.github.io/repo/").
     var rutaActual = window.location.pathname.replace(/index\.html$/, '');
     nav.querySelectorAll('a[href]').forEach(function (enlace) {
       var rutaEnlace = new URL(enlace.href).pathname.replace(/index\.html$/, '');
@@ -93,8 +93,11 @@
   // El header se inyecta vía includes.js (fetch asíncrono), así que
   // esperamos su evento en vez de DOMContentLoaded directamente. Si
   // includes.js no está presente en la página (poco probable), se intenta
-  // igual tras DOMContentLoaded como red de seguridad.
-  if (document.querySelector('[data-include="components/header.html"]')) {
+  // igual tras DOMContentLoaded como red de seguridad. El selector usa
+  // "termina con" ($=) porque el atributo data-include puede traer 0 o
+  // más "../" según la profundidad de la página (ej. "components/header.html"
+  // en index.html, "../components/header.html" en el resto).
+  if (document.querySelector('[data-include$="components/header.html"]')) {
     window.addEventListener('includes:loaded', inicializarMenu);
   } else {
     document.addEventListener('DOMContentLoaded', inicializarMenu);

@@ -6,9 +6,13 @@
   DÓNDE SE COLOCA: se incluye en cada página dentro de
   <div data-include="components/footer.html">, justo antes del botón de
   WhatsApp y del cierre de </body>.
+  RUTAS: igual que components/header.html, este archivo está escrito en
+  forma canónica (como si viviera en la raíz del sitio); assets/js/includes.js
+  le añade el prefijo "../" que corresponda según la profundidad real de
+  la página que lo incluyó.
   PENDIENTE (marcar antes de producción): reemplazar redes sociales
   (href="#") por las cuentas reales, y el correo/teléfono por los
-  definitivos si difieren de los usados en /contacto/.
+  definitivos si difieren de los usados en contacto/.
 -->
 <footer class="site-footer">
   <div class="container">

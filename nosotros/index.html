@@ -11,25 +11,18 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <!-- BASE PARA PREVIEW EN GITHUB PAGES (repo bajo subruta /CLAUDE-CODE-JHT/):
-       las rutas internas del sitio son relativas y se resuelven contra esta
-       etiqueta <base>, por eso funcionan igual en index.html que en
-       servicios/estructuras-metalicas.html. AL PASAR A PRODUCCIÓN (dominio
-       propio, servido desde la raíz), cambiar el href a "/" o eliminar
-       esta etiqueta por completo. -->
-  <base href="/CLAUDE-CODE-JHT/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nosotros — JHT Ingeniería</title>
   <meta name="description" content="Conoce a JHT Ingeniería: nuestra historia, cifras clave y certificaciones en calidad, seguridad y normas industriales.">
-  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
 <body>
 
-  <div data-include="components/header.html"></div>
+  <div data-include="../components/header.html"></div>
 
   <main>
     <header class="page-header">
@@ -51,7 +44,7 @@
             <p>Hoy diseñamos, fabricamos, montamos y damos mantenimiento a estructuras y equipos que operan en condiciones exigentes, con la misma exigencia de calidad y seguridad con la que empezamos.</p>
           </div>
           <div data-reveal="right">
-            <img src="assets/img/foto-planta.svg" alt="Planta y taller de JHT Ingeniería" style="border-radius: var(--radius-md);">
+            <img src="../assets/img/foto-planta.svg" alt="Planta y taller de JHT Ingeniería" style="border-radius: var(--radius-md);">
           </div>
         </div>
       </div>
@@ -110,17 +103,17 @@
             <h2>Hablemos de tu próximo proyecto</h2>
             <p>Nuestro equipo de ingeniería está listo para evaluarlo contigo.</p>
           </div>
-          <a href="contacto/" class="btn btn--secondary">Contáctanos</a>
+          <a href="../contacto/" class="btn btn--secondary">Contáctanos</a>
         </div>
       </div>
     </section>
   </main>
 
-  <div data-include="components/footer.html"></div>
-  <div data-include="components/whatsapp-button.html"></div>
+  <div data-include="../components/footer.html"></div>
+  <div data-include="../components/whatsapp-button.html"></div>
 
-  <script src="assets/js/includes.js"></script>
-  <script src="assets/js/menu.js"></script>
-  <script src="assets/js/animations.js"></script>
+  <script src="../assets/js/includes.js"></script>
+  <script src="../assets/js/menu.js"></script>
+  <script src="../assets/js/animations.js"></script>
 </body>
 </html>
