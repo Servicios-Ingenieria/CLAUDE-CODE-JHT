@@ -28,11 +28,9 @@
   --color-graphite-900: #1a2126;
   --color-graphite-800: #232b32;
   --color-graphite-700: #3a444d;
-  --color-graphite-500: #5b6670;
 
   /* Color — azul industrial (marca) */
   --color-blue-900: #0e2b47;
-  --color-blue-800: #123a5e;
   --color-blue-700: #1c4d7c;
   --color-blue-500: #2f6ea5;
   --color-blue-100: #dce8f2;
@@ -63,7 +61,6 @@
   --fs-h2: clamp(1.8rem, 2.4vw + 1rem, 2.6rem);
   --fs-h3: clamp(1.3rem, 1.2vw + 1rem, 1.7rem);
   --fs-body: 1rem;
-  --fs-small: 0.875rem;
 
   /* Espaciado */
   --space-xs: 0.5rem;
@@ -81,8 +78,6 @@
   --header-height: 84px;
 
   /* Sombra / transición */
-  --shadow-card: 0 12px 30px -12px rgba(14, 27, 41, 0.35);
-  --shadow-soft: 0 4px 18px rgba(14, 27, 41, 0.12);
   --transition-base: 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -539,17 +534,6 @@ button, input, textarea, select {
 }
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; }
 .grid--2-lead { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--4 { grid-template-columns: repeat(4, 1fr); }
-
-.card {
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card); }
 
 /* Grid asimétrico de servicios: la segunda y quinta tarjeta "flotan" más
    arriba para romper la retícula perfectamente simétrica. */
@@ -559,7 +543,7 @@ button, input, textarea, select {
   color: var(--color-white);
   border-radius: var(--radius-md);
   padding: var(--space-lg) var(--space-md) var(--space-md);
-  position: relative;
+  position: relative; /* referencia para el numeral en la esquina (.service-card__number) */
   overflow: hidden;
   min-height: 280px;
   display: flex;
@@ -1039,9 +1023,6 @@ button, input, textarea, select {
 ---------------------------------------------------------------------------- */
 
 /* --- Tarjetas de servicio "v2": numeración + tag técnico + bullets + CTA propio --- */
-.service-card {
-  position: relative; /* referencia para el numeral en la esquina */
-}
 .service-card__number {
   position: absolute;
   top: var(--space-sm);
@@ -1256,10 +1237,6 @@ button, input, textarea, select {
 .text-center { text-align: center; }
 .mt-lg { margin-top: var(--space-lg); }
 .mb-0 { margin-bottom: 0 !important; }
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap;
-}
 .badge-note {
   display: inline-block;
   font-size: 0.72rem;
