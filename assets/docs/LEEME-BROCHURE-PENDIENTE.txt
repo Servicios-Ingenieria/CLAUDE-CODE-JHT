@@ -1,0 +1,9 @@
+El archivo brochure-corporativo-jht.pdf en esta misma carpeta es un
+PLACEHOLDER (PDF de una sola página generado automáticamente) para que el
+enlace "Brochure Corporativo" del sitio no quede roto mientras no se tenga
+el documento real.
+
+Reemplázalo por el brochure corporativo definitivo de JHT Ingeniería
+(con logo, servicios, proyectos destacados y datos de contacto) antes de
+pasar a producción, manteniendo el mismo nombre de archivo para no tener
+que actualizar los enlaces en el sitio.

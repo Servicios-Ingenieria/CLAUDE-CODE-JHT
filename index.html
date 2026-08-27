@@ -63,6 +63,35 @@
       <span class="hero__scroll-cue" aria-hidden="true"></span>
     </section>
 
+    <!-- FRANJA DE CONTADORES: distinta de los 2 datos flotantes del hero
+         (esos siguen ahí, arriba); esta es la franja completa de 4 cifras
+         pedida justo debajo del hero. Reutiliza el mismo componente
+         .counters/.counter que ya usa Nosotros, con animación al hacer
+         scroll vía data-counter (ver assets/js/animations.js). -->
+    <section class="section section--tight section--dark">
+      <div class="container">
+        <div class="counters" data-reveal-group>
+          <div class="counter" data-reveal>
+            <span class="counter__value"><span data-counter="5" data-counter-suffix="+">0</span></span>
+            <span class="counter__label">Años de experiencia</span>
+          </div>
+          <div class="counter" data-reveal>
+            <span class="counter__value"><span data-counter="500" data-counter-suffix="+">0</span></span>
+            <span class="counter__label">Toneladas fabricadas</span>
+          </div>
+          <div class="counter" data-reveal>
+            <span class="counter__value"><span data-counter="100" data-counter-suffix="+">0</span></span>
+            <span class="counter__label">Proyectos completados</span>
+          </div>
+          <div class="counter" data-reveal>
+            <span class="counter__value"><span data-counter="50" data-counter-suffix="+">0</span></span>
+            <span class="counter__label">Clientes satisfechos</span>
+          </div>
+        </div>
+        <p class="badge-note mt-lg">Cifras referenciales — ajustar con los datos reales de la empresa.</p>
+      </div>
+    </section>
+
     <!-- SERVICIOS PRINCIPALES -->
     <section class="section" id="servicios-destacados">
       <div class="container">
@@ -72,59 +101,122 @@
           <p>Cobertura integral: desde el diseño y fabricación hasta el montaje y mantenimiento de estructuras y equipos industriales.</p>
         </div>
 
+        <!-- Tarjetas "v2": numeración + tag técnico en inglés + bullets de
+             sub-servicios + botón de cotización propio por tarjeta (antes
+             solo tenían ícono + título + texto + un enlace). -->
         <div class="service-grid" data-reveal-group>
           <article class="service-card" data-reveal>
+            <span class="service-card__number" aria-hidden="true">01</span>
             <span class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 40 L24 8 L42 40 Z"/><path d="M14 40 L24 20 L34 40"/><path d="M6 40 H42"/></svg>
             </span>
+            <p class="service-card__tag">Engineering</p>
             <h3>Estructuras metálicas</h3>
             <p>Puentes, naves industriales, almacenes y techos parabólicos, diseñados a medida.</p>
-            <a href="servicios/estructuras-metalicas.html" class="service-card__link">Ver especificaciones →</a>
+            <ul class="service-card__list">
+              <li>Cálculo estructural</li>
+              <li>Fabricación en taller</li>
+              <li>Montaje en obra</li>
+            </ul>
+            <div class="service-card__actions">
+              <a href="servicios/estructuras-metalicas.html" class="service-card__link">Ver especificaciones →</a>
+              <a href="contacto/" class="btn btn--cotizacion btn--sm">Cotizar</a>
+            </div>
           </article>
 
           <article class="service-card" data-reveal>
+            <span class="service-card__number" aria-hidden="true">02</span>
             <span class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 8 L40 40 M40 8 L8 40"/><circle cx="24" cy="24" r="5" fill="currentColor" stroke="none"/></svg>
             </span>
+            <p class="service-card__tag">Fabrication</p>
             <h3>Corte láser a medida</h3>
             <p>Corte de precisión sobre plancha metálica para piezas y componentes personalizados.</p>
-            <a href="servicios/corte-laser.html" class="service-card__link">Ver especificaciones →</a>
+            <ul class="service-card__list">
+              <li>Corte CNC de precisión</li>
+              <li>Planos DXF, DWG o STEP</li>
+              <li>Piezas y componentes a medida</li>
+            </ul>
+            <div class="service-card__actions">
+              <a href="servicios/corte-laser.html" class="service-card__link">Ver especificaciones →</a>
+              <a href="contacto/" class="btn btn--cotizacion btn--sm">Cotizar</a>
+            </div>
           </article>
 
           <article class="service-card" data-reveal>
+            <span class="service-card__number" aria-hidden="true">03</span>
             <span class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 38 L22 26"/><path d="M18 14 L34 30 L38 26 L22 10 Z"/><path d="M8 40 L14 34"/></svg>
             </span>
+            <p class="service-card__tag">Assembly</p>
             <h3>Soldadura especializada</h3>
             <p>Procesos TIG, MIG y MAG certificados, para uniones críticas de alta exigencia.</p>
-            <a href="servicios/soldadura.html" class="service-card__link">Ver especificaciones →</a>
+            <ul class="service-card__list">
+              <li>Procesos TIG, MIG y MAG</li>
+              <li>Soldadores calificados</li>
+              <li>Uniones críticas certificadas</li>
+            </ul>
+            <div class="service-card__actions">
+              <a href="servicios/soldadura.html" class="service-card__link">Ver especificaciones →</a>
+              <a href="contacto/" class="btn btn--cotizacion btn--sm">Cotizar</a>
+            </div>
           </article>
 
           <article class="service-card" data-reveal>
+            <span class="service-card__number" aria-hidden="true">04</span>
             <span class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="10" y="14" width="28" height="24" rx="3"/><path d="M16 14 V10 H32 V14"/><path d="M10 26 H38"/></svg>
             </span>
+            <p class="service-card__tag">Fabrication</p>
             <h3>Estructura de tanques</h3>
             <p>Fabricación y montaje de tanques industriales bajo normas ASME/API.</p>
-            <a href="servicios/tanques.html" class="service-card__link">Ver especificaciones →</a>
+            <ul class="service-card__list">
+              <li>Diseño bajo normas ASME/API</li>
+              <li>Fabricación y montaje</li>
+              <li>Pruebas de hermeticidad</li>
+            </ul>
+            <div class="service-card__actions">
+              <a href="servicios/tanques.html" class="service-card__link">Ver especificaciones →</a>
+              <a href="contacto/" class="btn btn--cotizacion btn--sm">Cotizar</a>
+            </div>
           </article>
 
           <article class="service-card" data-reveal>
+            <span class="service-card__number" aria-hidden="true">05</span>
             <span class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="8"/><path d="M24 6 V12 M24 36 V42 M6 24 H12 M36 24 H42 M11 11 L15.5 15.5 M32.5 32.5 L37 37 M37 11 L32.5 15.5 M15.5 32.5 L11 37"/></svg>
             </span>
+            <p class="service-card__tag">Maintenance</p>
             <h3>Mantenimiento industrial</h3>
             <p>Mantenimiento preventivo y correctivo de equipos mecánicos en planta.</p>
-            <a href="servicios/mantenimiento.html" class="service-card__link">Ver especificaciones →</a>
+            <ul class="service-card__list">
+              <li>Mantenimiento preventivo</li>
+              <li>Mantenimiento correctivo</li>
+              <li>Diagnóstico técnico</li>
+            </ul>
+            <div class="service-card__actions">
+              <a href="servicios/mantenimiento.html" class="service-card__link">Ver especificaciones →</a>
+              <a href="contacto/" class="btn btn--cotizacion btn--sm">Cotizar</a>
+            </div>
           </article>
 
           <article class="service-card" data-reveal>
+            <span class="service-card__number" aria-hidden="true">06</span>
             <span class="service-card__icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M24 8 V18 M24 40 V30 M14 24 H8 M40 24 H34"/><rect x="14" y="18" width="20" height="12" rx="2"/></svg>
             </span>
+            <p class="service-card__tag">Maintenance</p>
             <h3>Bombas y válvulas</h3>
             <p>Diagnóstico, reparación y mantenimiento de bombas y válvulas industriales.</p>
-            <a href="servicios/bombas-valvulas.html" class="service-card__link">Ver especificaciones →</a>
+            <ul class="service-card__list">
+              <li>Diagnóstico de fallas</li>
+              <li>Reparación y reacondicionamiento</li>
+              <li>Reemplazo de componentes</li>
+            </ul>
+            <div class="service-card__actions">
+              <a href="servicios/bombas-valvulas.html" class="service-card__link">Ver especificaciones →</a>
+              <a href="contacto/" class="btn btn--cotizacion btn--sm">Cotizar</a>
+            </div>
           </article>
         </div>
       </div>

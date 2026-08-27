@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <!--
   ARCHIVO: contacto/index.html
-  QUÉ HACE: Página de contacto: formulario visual (sin envío funcional en
-  esta fase), mapa de Google Maps embebido, datos de contacto y horario
-  de atención.
+  QUÉ HACE: Página de contacto / solicitud de cotización: formulario con
+  validación nativa (HTML5 required + type="email") y una confirmación
+  simulada al enviarlo (ver inicializarFormularioContacto() en
+  assets/js/animations.js) — sigue sin backend real, eso es Fase 3; mapa
+  de Google Maps embebido + enlace "Ver en Google Maps", datos de
+  contacto y horario de atención.
   PENDIENTE (antes de producción): reemplazar la dirección del mapa, el
   teléfono, el correo y el horario por los datos reales de la empresa.
 -->
@@ -36,52 +39,72 @@
       <div class="container">
         <div class="grid grid--2">
           <div data-reveal="left">
-            <h2>Envíanos un mensaje</h2>
+            <h2>Solicita tu cotización</h2>
             <div class="form-note">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8 V13 M12 16 H12.01"/></svg>
-              <span>Formulario visual (Fase 1). El envío funcional se conecta en la Fase 3.</span>
+              <span>El formulario valida los campos y muestra una confirmación al enviarlo, pero el envío real a un backend (correo/base de datos) se conecta en la Fase 3.</span>
             </div>
 
-            <form class="form-grid mt-lg" data-fase="3" onsubmit="return false;">
+            <form class="form-grid mt-lg" id="form-cotizacion" data-fase="3" novalidate>
               <div class="form-row-2">
                 <div class="form-field">
-                  <label for="con-nombre">Nombre completo</label>
-                  <input type="text" id="con-nombre" name="nombre" placeholder="Tu nombre" disabled>
+                  <label for="con-nombre">Nombre completo *</label>
+                  <input type="text" id="con-nombre" name="nombre" placeholder="Tu nombre" required>
                 </div>
                 <div class="form-field">
-                  <label for="con-empresa">Empresa</label>
-                  <input type="text" id="con-empresa" name="empresa" placeholder="Nombre de tu empresa" disabled>
+                  <label for="con-empresa">Empresa *</label>
+                  <input type="text" id="con-empresa" name="empresa" placeholder="Nombre de tu empresa" required>
                 </div>
               </div>
               <div class="form-row-2">
                 <div class="form-field">
-                  <label for="con-email">Correo electrónico</label>
-                  <input type="email" id="con-email" name="email" placeholder="correo@ejemplo.com" disabled>
+                  <label for="con-email">Correo electrónico *</label>
+                  <input type="email" id="con-email" name="email" placeholder="correo@ejemplo.com" required>
                 </div>
                 <div class="form-field">
-                  <label for="con-telefono">Teléfono</label>
-                  <input type="tel" id="con-telefono" name="telefono" placeholder="+51 ___ ___ ___" disabled>
+                  <label for="con-telefono">Teléfono de contacto *</label>
+                  <input type="tel" id="con-telefono" name="telefono" placeholder="+51 ___ ___ ___" required>
                 </div>
               </div>
               <div class="form-field">
-                <label for="con-servicio">Servicio de interés</label>
-                <select id="con-servicio" name="servicio" disabled>
+                <label for="con-tipo-proyecto">Tipo de proyecto *</label>
+                <select id="con-tipo-proyecto" name="tipo_proyecto" required>
+                  <option value="" disabled selected>Selecciona una opción</option>
                   <option>Estructuras metálicas</option>
-                  <option>Corte láser</option>
+                  <option>Cortes láser</option>
                   <option>Soldadura especializada</option>
-                  <option>Estructura de tanques</option>
-                  <option>Mantenimiento industrial</option>
-                  <option>Bombas y válvulas</option>
+                  <option>Tanques industriales</option>
+                  <option>Mantenimiento de equipos</option>
                   <option>Otro</option>
                 </select>
               </div>
               <div class="form-field">
-                <label for="con-mensaje">Mensaje</label>
-                <textarea id="con-mensaje" name="mensaje" rows="5" placeholder="Cuéntanos sobre tu proyecto" disabled></textarea>
+                <label for="con-descripcion">Descripción del requerimiento *</label>
+                <textarea id="con-descripcion" name="descripcion" rows="5" placeholder="Cuéntanos sobre tu proyecto: alcance, dimensiones, plazos, etc." required></textarea>
               </div>
-              <button type="submit" class="btn btn--primary btn--block" disabled title="Disponible con envío funcional en la Fase 3">
-                Enviar mensaje (disponible en Fase 3)
+
+              <label class="form-checkbox">
+                <input type="checkbox" name="urgente">
+                Este proyecto es de carácter urgente
+              </label>
+
+              <label class="form-checkbox">
+                <input type="checkbox" name="acepta_politica" required>
+                Acepto la <a href="../politicas/">política de privacidad y tratamiento de datos</a> *
+              </label>
+
+              <button type="submit" class="btn btn--primary btn--block">
+                Solicitar Cotización
               </button>
+
+              <!-- Confirmación simulada: inicializarFormularioContacto() en
+                   assets/js/animations.js valida el formulario, muestra
+                   este bloque con .is-visible y limpia los campos. Sin
+                   backend real todavía (Fase 3). -->
+              <div class="form-success" role="status" aria-live="polite">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12 L11 15 L16 9"/></svg>
+                <span>¡Gracias! Registramos tu solicitud. Esta confirmación es una simulación de la Fase 1 — el envío real a nuestro equipo se conecta en la Fase 3.</span>
+              </div>
             </form>
           </div>
 
@@ -120,7 +143,15 @@
           </div>
         </div>
 
-        <div class="map-embed mt-lg" data-reveal="scale">
+        <!-- Botón adicional que abre la misma dirección en Google Maps en
+             una pestaña nueva (distinto de la URL del iframe, que usa
+             output=embed y no sirve para abrir en el propio Maps). -->
+        <div class="map-actions mt-lg" data-reveal>
+          <a href="https://www.google.com/maps/search/?api=1&query=Av.+Industrial+1234,+Lima,+Peru" target="_blank" rel="noopener" class="btn btn--secondary btn--sm">
+            Ver en Google Maps ↗
+          </a>
+        </div>
+        <div class="map-embed" data-reveal="scale">
           <!-- Mapa embebido sin API key, mediante el formato de búsqueda de
                Google Maps. Reemplazar la dirección en la URL cuando se
                tenga la ubicación exacta del cliente. -->

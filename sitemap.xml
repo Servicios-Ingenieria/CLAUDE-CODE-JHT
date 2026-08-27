@@ -17,6 +17,8 @@
   <url><loc>https://www.jht-ingenieria.pe/servicios/bombas-valvulas.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.jht-ingenieria.pe/proyectos/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.jht-ingenieria.pe/clientes/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.jht-ingenieria.pe/valor/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.jht-ingenieria.pe/faqs/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://www.jht-ingenieria.pe/politicas/</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://www.jht-ingenieria.pe/reclamaciones/</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://www.jht-ingenieria.pe/contacto/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

@@ -947,6 +947,227 @@ button, input, textarea, select {
 }
 
 /* ----------------------------------------------------------------------------
+   14-B. MEJORAS INCREMENTALES SOBRE EL SITIO YA CONSTRUIDO
+   (numeración/tag/bullets/CTA propio en tarjetas de servicio, normas
+   técnicas, propuesta de valor discreta, FAQ en acordeón, metadatos de
+   tarjeta de proyecto, botón "Ver en Google Maps"). Se agrupan aquí en
+   vez de mezclarlas entre las secciones originales para que el diff de
+   este cambio incremental sea fácil de revisar.
+---------------------------------------------------------------------------- */
+
+/* --- Tarjetas de servicio "v2": numeración + tag técnico + bullets + CTA propio --- */
+.service-card {
+  position: relative; /* referencia para el numeral en la esquina */
+}
+.service-card__number {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.14);
+  line-height: 1;
+}
+.service-card__tag {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-orange-500);
+  /* Despeja el ícono (position:absolute, ~74px de alto contando su
+     offset) — antes de sumar tag/bullets/botón propio, el contenido en
+     flex solía quedar más abajo por el min-height + justify-content:
+     flex-end de .service-card; con más contenido esa holgura ya no
+     alcanza y el tag terminaba montado sobre el ícono. */
+  margin-top: 1.75rem;
+  margin-bottom: 0.35rem;
+}
+.service-card__list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0 1rem;
+}
+.service-card__list li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  color: var(--color-gray-400);
+}
+.service-card__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 6px;
+  height: 6px;
+  background: var(--color-orange-600);
+}
+.service-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* --- Normas técnicas aplicadas (página Servicios) --- */
+.standards-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+.standard-badge {
+  flex: 1 1 220px;
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+}
+.standard-badge svg { width: 26px; height: 26px; color: var(--color-blue-700); flex-shrink: 0; }
+.standard-badge h3 { font-size: 0.98rem; margin-bottom: 0.2rem; }
+.standard-badge p { font-size: 0.85rem; margin-bottom: 0; color: var(--color-gray-600); }
+
+/* --- Propuesta de Valor: sección deliberadamente discreta -------------------
+   Sin fotos, sin tarjetas con sombra/hover, sin fondo destacado: solo texto
+   e íconos pequeños, para que se lea como bloque secundario y no compita
+   visualmente con Servicios o Proyectos. */
+.value-section { padding-block: var(--space-lg); }
+.value-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg) var(--space-md);
+  margin-top: var(--space-md);
+}
+.value-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+.value-item svg {
+  width: 22px; height: 22px;
+  color: var(--color-blue-700);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.value-item h3 {
+  font-size: 0.95rem;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 0.2rem;
+}
+.value-item p { font-size: 0.88rem; color: var(--color-gray-600); margin-bottom: 0; }
+
+/* --- FAQ en acordeón --- */
+.faq-list { display: grid; gap: 0.7rem; max-width: 820px; }
+.faq-item {
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-white);
+  border: none;
+  text-align: left;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: var(--color-graphite-950);
+  cursor: pointer;
+}
+.faq-question__icono {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  position: relative;
+}
+.faq-question__icono::before,
+.faq-question__icono::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  background: var(--color-orange-600);
+  transform: translate(-50%, -50%);
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+.faq-question__icono::before { width: 14px; height: 2px; }
+.faq-question__icono::after { width: 2px; height: 14px; }
+.faq-item.is-open .faq-question__icono::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+.faq-item.is-open .faq-question { background: var(--color-offwhite); }
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--transition-base);
+}
+.faq-answer__inner { padding: 0 var(--space-md) var(--space-md); }
+.faq-answer__inner p { font-size: 0.94rem; margin-bottom: 0; }
+.faq-item.is-open .faq-answer { max-height: 320px; }
+
+/* --- Metadatos de tarjeta de proyecto (fotos, ubicación, año, alcance) --- */
+.project-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.9rem;
+  margin: 0.5rem 0 0.6rem;
+  font-size: 0.8rem;
+  color: var(--color-gray-600);
+}
+.project-card__meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+.project-card__meta svg { width: 14px; height: 14px; color: var(--color-orange-600); }
+.project-card__scope {
+  font-size: 0.85rem;
+  color: var(--color-graphite-800);
+  margin-bottom: 0.75rem;
+}
+.project-card__scope strong { color: var(--color-graphite-950); }
+.project-card__body { display: flex; flex-direction: column; }
+.project-card__body .btn { align-self: flex-start; }
+
+/* --- Botón deshabilitado visualmente (ej. "Ver Detalles" de un proyecto,
+   sin ficha de detalle todavía) --- */
+.btn--disabled {
+  opacity: 0.55;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* --- Botón "Ver en Google Maps" junto al iframe --- */
+.map-actions { display: flex; justify-content: flex-end; margin-bottom: var(--space-sm); }
+
+/* --- Checkbox de formulario (urgente / política de privacidad) --- */
+.form-checkbox {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: var(--color-graphite-700);
+}
+.form-checkbox input { margin-top: 0.2rem; flex-shrink: 0; width: 16px; height: 16px; }
+.form-checkbox a { color: var(--color-blue-700); text-decoration: underline; }
+
+/* --- Mensaje de confirmación simulada tras "enviar" el formulario --- */
+.form-success {
+  display: none;
+  gap: 0.6rem;
+  align-items: flex-start;
+  background: #e7f6ec;
+  color: #1e6b3a;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.92rem;
+  margin-top: var(--space-sm);
+}
+.form-success.is-visible { display: flex; }
+.form-success svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* ----------------------------------------------------------------------------
    15. UTILIDADES
 ---------------------------------------------------------------------------- */
 .text-center { text-align: center; }
@@ -980,6 +1201,7 @@ button, input, textarea, select {
   .logo-grid { grid-template-columns: repeat(3, 1fr); }
   .hero__content { grid-template-columns: 1fr; }
   .hero__stats { grid-auto-flow: column; }
+  .value-list { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 820px) {
@@ -1016,6 +1238,8 @@ button, input, textarea, select {
   .sector-row { grid-template-columns: repeat(2, 1fr); }
   .logo-grid { grid-template-columns: repeat(2, 1fr); }
   .counters { grid-template-columns: 1fr 1fr; }
+  .value-list { grid-template-columns: 1fr; }
+  .service-card__actions { flex-direction: column; align-items: stretch; }
 }
 
 @media (max-width: 540px) {

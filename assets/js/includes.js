@@ -65,7 +65,7 @@
   // de ruta "canónica" que puede traer un fragmento compartido y que este
   // script sabe corregir. Si se agrega una sección nueva al sitio, hay
   // que sumarla aquí también.
-  var CARPETAS_RAIZ = ['assets', 'components', 'nosotros', 'servicios', 'proyectos', 'clientes', 'politicas', 'reclamaciones', 'contacto'];
+  var CARPETAS_RAIZ = ['assets', 'components', 'nosotros', 'servicios', 'proyectos', 'clientes', 'valor', 'faqs', 'politicas', 'reclamaciones', 'contacto'];
 
   // Extrae, del propio valor de data-include, cuántos "../" tiene al
   // inicio. Ese número es la profundidad real desde la que se pidió el

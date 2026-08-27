@@ -7,6 +7,10 @@
  *   2. Contadores animados (Nosotros) que cuentan desde 0 hasta su valor
  *      real cuando entran en pantalla.
  *   3. Filtro de la galería de proyectos por sector.
+ *   3-B. Acordeón de preguntas frecuentes (página faqs/).
+ *   3-C. Envío simulado del formulario de cotización/contacto: valida los
+ *        campos con la API nativa de formularios y muestra un mensaje de
+ *        confirmación, sin backend real todavía (eso es Fase 3).
  *   4. Manejo de error de recursos multimedia: si una imagen o el video
  *      del hero no cargan, se aplica un fallback visual en vez de romper
  *      el layout, con aviso claro en consola para depurar.
@@ -125,6 +129,83 @@
   }
 
   /* ---------------------------------------------------------------------
+     3-B. ACORDEÓN DE PREGUNTAS FRECUENTES (página faqs/)
+     Cada pregunta es un <button class="faq-question"> dentro de un
+     .faq-item; al hacer clic se alterna .is-open y se ajusta la altura
+     máxima de .faq-answer al alto real de su contenido (en vez de un
+     valor fijo en CSS), para que funcione con respuestas de cualquier
+     longitud. Solo una pregunta abierta a la vez (comportamiento típico
+     de acordeón), para que la lista no crezca descontroladamente.
+  --------------------------------------------------------------------- */
+  function inicializarAcordeonFaq() {
+    var items = document.querySelectorAll('.faq-item');
+    if (!items.length) return;
+
+    items.forEach(function (item) {
+      var boton = item.querySelector('.faq-question');
+      var respuesta = item.querySelector('.faq-answer');
+      if (!boton || !respuesta) return;
+
+      boton.addEventListener('click', function () {
+        var yaAbierto = item.classList.contains('is-open');
+
+        // Cierra cualquier otra pregunta abierta antes de abrir esta.
+        items.forEach(function (otro) {
+          if (otro !== item) {
+            otro.classList.remove('is-open');
+            otro.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            otro.querySelector('.faq-answer').style.maxHeight = '';
+          }
+        });
+
+        if (yaAbierto) {
+          item.classList.remove('is-open');
+          boton.setAttribute('aria-expanded', 'false');
+          respuesta.style.maxHeight = '';
+        } else {
+          item.classList.add('is-open');
+          boton.setAttribute('aria-expanded', 'true');
+          respuesta.style.maxHeight = respuesta.scrollHeight + 'px';
+        }
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+     3-C. FORMULARIO DE COTIZACIÓN/CONTACTO: envío simulado
+     Se dirige específicamente a #form-cotizacion (contacto/index.html) y
+     no a cualquier <form>, porque el Libro de Reclamaciones también usa
+     un formulario en la misma página del sitio y ese SÍ debe seguir
+     completamente deshabilitado (su envío real es tema de Fase 3 aparte,
+     no pedido en esta mejora incremental).
+  --------------------------------------------------------------------- */
+  function inicializarFormularioContacto() {
+    var formulario = document.getElementById('form-cotizacion');
+    if (!formulario) return;
+
+    var mensajeExito = formulario.querySelector('.form-success');
+
+    formulario.addEventListener('submit', function (evento) {
+      evento.preventDefault(); // nunca se envía a un backend real en esta fase
+
+      if (!formulario.checkValidity()) {
+        // Deja que el navegador muestre sus propios globos de validación
+        // (campo requerido vacío, correo con formato inválido, etc.).
+        formulario.reportValidity();
+        if (mensajeExito) mensajeExito.classList.remove('is-visible');
+        return;
+      }
+
+      console.info('[animations.js] Envío simulado del formulario de cotización (sin backend real todavía — Fase 3).');
+      if (mensajeExito) {
+        mensajeExito.classList.add('is-visible');
+        mensajeExito.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      formulario.reset();
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      4. FALLBACK DE RECURSOS MULTIMEDIA (imágenes y video del hero)
   --------------------------------------------------------------------- */
   function inicializarFallbackMultimedia() {
@@ -154,6 +235,8 @@
     inicializarRevelado();
     inicializarContadores();
     inicializarFiltroProyectos();
+    inicializarAcordeonFaq();
+    inicializarFormularioContacto();
     inicializarFallbackMultimedia();
   });
 
