@@ -84,6 +84,28 @@
                 <textarea id="con-descripcion" name="descripcion" rows="5" placeholder="Cuéntanos sobre tu proyecto: alcance, dimensiones, plazos, etc." required></textarea>
               </div>
 
+              <!-- Adjuntar archivos: validación de tipo y peso en el propio
+                   navegador (máx. 3 archivos, 10 MB c/u — constantes en
+                   assets/js/animations.js), sin subir nada a un servidor
+                   todavía. Mismos formatos que el FAQ #1 (DXF, DWG, STEP,
+                   IGS), más PDF. Ver manejarSeleccionArchivos() en
+                   inicializarFormularioContacto() en assets/js/animations.js. -->
+              <div class="form-field">
+                <label for="con-archivos">Adjuntar archivos (PDF o planos)</label>
+                <input
+                  type="file"
+                  id="con-archivos"
+                  name="archivos"
+                  multiple
+                  accept=".pdf,.dxf,.dwg,.step,.stp,.igs,.iges">
+                <p class="form-file-error" data-file-error aria-live="polite"></p>
+                <ul class="form-file-list" data-file-list aria-live="polite"></ul>
+                <div class="form-note">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8 V13 M12 16 H12.01"/></svg>
+                  <span>Los archivos se adjuntan pero aún no se envían a ningún servidor (disponible en la siguiente fase).</span>
+                </div>
+              </div>
+
               <label class="form-checkbox">
                 <input type="checkbox" name="urgente">
                 Este proyecto es de carácter urgente

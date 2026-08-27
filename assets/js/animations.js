@@ -8,9 +8,12 @@
  *      real cuando entran en pantalla.
  *   3. Filtro de la galería de proyectos por sector.
  *   3-B. Acordeón de preguntas frecuentes (página faqs/).
- *   3-C. Envío simulado del formulario de cotización/contacto: valida los
- *        campos con la API nativa de formularios y muestra un mensaje de
- *        confirmación, sin backend real todavía (eso es Fase 3).
+ *   3-C. Formulario de cotización/contacto: valida los campos con la API
+ *        nativa de formularios, valida tipo/peso de los archivos adjuntos
+ *        en el propio navegador y muestra un mensaje de confirmación. El
+ *        envío usa fetch() contra COTIZACION_ENDPOINT (constante al
+ *        inicio de esta sección); mientras esté vacía (Fase 1/2) el envío
+ *        queda simulado, sin backend real todavía (eso es Fase 3).
  *   4. Manejo de error de recursos multimedia: si una imagen o el video
  *      del hero no cargan, se aplica un fallback visual en vez de romper
  *      el layout, con aviso claro en consola para depurar.
@@ -172,21 +175,145 @@
   }
 
   /* ---------------------------------------------------------------------
-     3-C. FORMULARIO DE COTIZACIÓN/CONTACTO: envío simulado
+     CONFIGURACIÓN DEL FORMULARIO DE COTIZACIÓN (constantes fácilmente
+     ajustables).
+     COTIZACION_ENDPOINT es la ÚNICA constante que debe cambiar entre
+     fases: vacía en Fase 1/2 (el envío queda simulado, ver más abajo).
+     En Fase 3 se completa primero con la URL de un Google Apps Script
+     (guarda los campos de texto en una fila de Google Sheets y sube cada
+     PDF/plano adjunto a una carpeta de Google Drive, devolviendo su
+     link) y, al migrar a PHP + MySQL, con el endpoint de ese backend —
+     sin tocar el formulario ni esta lógica de validación, solo esta
+     constante y el script del backend.
+  --------------------------------------------------------------------- */
+  var COTIZACION_ENDPOINT = '';
+  var COTIZACION_MAX_ARCHIVOS = 3;
+  var COTIZACION_MAX_PESO_MB = 10;
+  var COTIZACION_EXTENSIONES_PERMITIDAS = ['.pdf', '.dxf', '.dwg', '.step', '.stp', '.igs', '.iges'];
+
+  /* ---------------------------------------------------------------------
+     3-C. FORMULARIO DE COTIZACIÓN/CONTACTO
      Se dirige específicamente a #form-cotizacion (contacto/index.html) y
      no a cualquier <form>, porque el Libro de Reclamaciones también usa
      un formulario en la misma página del sitio y ese SÍ debe seguir
      completamente deshabilitado (su envío real es tema de Fase 3 aparte,
      no pedido en esta mejora incremental).
+     Incluye la validación en el navegador del campo "Adjuntar archivos"
+     (tipo y peso, sin subir nada todavía) y el envío del formulario vía
+     fetch() contra COTIZACION_ENDPOINT (ver configuración arriba); si
+     está vacío, el envío se simula igual que en fases anteriores.
   --------------------------------------------------------------------- */
   function inicializarFormularioContacto() {
     var formulario = document.getElementById('form-cotizacion');
     if (!formulario) return;
 
     var mensajeExito = formulario.querySelector('.form-success');
+    var campoArchivos = formulario.querySelector('#con-archivos');
+    var listaArchivos = formulario.querySelector('[data-file-list]');
+    var errorArchivos = formulario.querySelector('[data-file-error]');
+    var archivosAceptados = [];
+
+    function formatearPeso(bytes) {
+      if (bytes >= 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+      return Math.max(1, Math.round(bytes / 1024)) + ' KB';
+    }
+
+    function obtenerExtension(nombreArchivo) {
+      var partes = nombreArchivo.toLowerCase().split('.');
+      return partes.length > 1 ? '.' + partes.pop() : '';
+    }
+
+    // Reconstruye campoArchivos.files a partir de archivosAceptados, para
+    // que el <input type="file"> nativo (y por lo tanto un futuro
+    // `new FormData(formulario)` en Fase 3) siempre refleje la lista
+    // visual, incluyendo los archivos quitados con el botón "Quitar".
+    function sincronizarInputArchivos() {
+      var transferencia = new DataTransfer();
+      archivosAceptados.forEach(function (archivo) { transferencia.items.add(archivo); });
+      campoArchivos.files = transferencia.files;
+    }
+
+    function renderizarListaArchivos() {
+      listaArchivos.innerHTML = '';
+      archivosAceptados.forEach(function (archivo, indice) {
+        var item = document.createElement('li');
+        item.className = 'form-file-list__item';
+
+        var etiqueta = document.createElement('span');
+        etiqueta.textContent = archivo.name + ' (' + formatearPeso(archivo.size) + ')';
+
+        var quitar = document.createElement('button');
+        quitar.type = 'button';
+        quitar.className = 'form-file-list__remove';
+        quitar.textContent = 'Quitar';
+        quitar.setAttribute('aria-label', 'Quitar archivo ' + archivo.name);
+        quitar.addEventListener('click', function () {
+          archivosAceptados.splice(indice, 1);
+          sincronizarInputArchivos();
+          renderizarListaArchivos();
+        });
+
+        item.appendChild(etiqueta);
+        item.appendChild(quitar);
+        listaArchivos.appendChild(item);
+      });
+    }
+
+    // Un archivo que no cumple tipo o peso se rechaza puntualmente (mensaje
+    // inline junto al campo) sin bloquear el resto del formulario ni
+    // afectar los archivos ya aceptados.
+    function manejarSeleccionArchivos() {
+      var seleccionados = Array.prototype.slice.call(campoArchivos.files);
+      var errores = [];
+
+      seleccionados.forEach(function (archivo) {
+        if (archivosAceptados.length >= COTIZACION_MAX_ARCHIVOS) {
+          errores.push('"' + archivo.name + '" no se agregó: máximo ' + COTIZACION_MAX_ARCHIVOS + ' archivos por envío.');
+          return;
+        }
+        var extension = obtenerExtension(archivo.name);
+        if (COTIZACION_EXTENSIONES_PERMITIDAS.indexOf(extension) === -1) {
+          errores.push('"' + archivo.name + '" no tiene un formato permitido.');
+          return;
+        }
+        if (archivo.size > COTIZACION_MAX_PESO_MB * 1024 * 1024) {
+          errores.push('"' + archivo.name + '" supera el peso máximo de ' + COTIZACION_MAX_PESO_MB + ' MB.');
+          return;
+        }
+        var yaAgregado = archivosAceptados.some(function (aceptado) {
+          return aceptado.name === archivo.name && aceptado.size === archivo.size;
+        });
+        if (yaAgregado) return;
+        archivosAceptados.push(archivo);
+      });
+
+      errorArchivos.textContent = errores.join(' ');
+      sincronizarInputArchivos();
+      renderizarListaArchivos();
+    }
+
+    if (campoArchivos && listaArchivos && errorArchivos) {
+      campoArchivos.addEventListener('change', manejarSeleccionArchivos);
+    }
+
+    function limpiarArchivos() {
+      archivosAceptados = [];
+      if (campoArchivos) sincronizarInputArchivos();
+      if (listaArchivos) renderizarListaArchivos();
+      if (errorArchivos) errorArchivos.textContent = '';
+    }
+
+    function mostrarConfirmacionYLimpiar() {
+      if (mensajeExito) {
+        mensajeExito.classList.add('is-visible');
+        mensajeExito.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      formulario.reset();
+      limpiarArchivos();
+    }
 
     formulario.addEventListener('submit', function (evento) {
-      evento.preventDefault(); // nunca se envía a un backend real en esta fase
+      evento.preventDefault(); // el envío se controla siempre desde JS, nunca con un action= fijo
 
       if (!formulario.checkValidity()) {
         // Deja que el navegador muestre sus propios globos de validación
@@ -196,12 +323,25 @@
         return;
       }
 
-      console.info('[animations.js] Envío simulado del formulario de cotización (sin backend real todavía — Fase 3).');
-      if (mensajeExito) {
-        mensajeExito.classList.add('is-visible');
-        mensajeExito.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!COTIZACION_ENDPOINT) {
+        // Fase 1/2: todavía no hay backend configurado — se simula el envío.
+        console.info('[animations.js] Envío simulado del formulario de cotización (COTIZACION_ENDPOINT vacío; se completa en Fase 3).');
+        mostrarConfirmacionYLimpiar();
+        return;
       }
-      formulario.reset();
+
+      // Fase 3: mismo formulario y misma validación — lo único que cambia
+      // es COTIZACION_ENDPOINT (primero a un Google Apps Script, luego a
+      // un backend PHP + MySQL) y el script del lado del servidor.
+      fetch(COTIZACION_ENDPOINT, { method: 'POST', body: new FormData(formulario) })
+        .then(function (respuesta) {
+          if (!respuesta.ok) throw new Error('Respuesta no OK del servidor: ' + respuesta.status);
+          mostrarConfirmacionYLimpiar();
+        })
+        .catch(function (error) {
+          console.error('[animations.js] Error al enviar el formulario de cotización:', error);
+          window.alert('No se pudo enviar tu solicitud. Intenta nuevamente o contáctanos por WhatsApp.');
+        });
     });
   }
 
