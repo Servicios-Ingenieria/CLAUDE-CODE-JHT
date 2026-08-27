@@ -1,0 +1,15 @@
+<!--
+  ARCHIVO: components/cotizacion-boton.html
+  QUÉ HACE: Botón destacado "Solicitar Cotización". En esta Fase 1 es
+  puramente visual: no dispara ningún carrito ni formulario funcional.
+  data-fase="2" documenta en el propio markup que la lógica (carrito de
+  cotización) se conecta en la Fase 2 del proyecto.
+  DÓNDE SE COLOCA: se incluye dentro de components/header.html (menú) y
+  puede reutilizarse en cualquier CTA de página (ver banners .cta-banner).
+  CÓMO SE RELACIONA: los estilos vienen de .btn / .btn--cotizacion en
+  assets/css/styles.css. El href apunta a la página de Contacto mientras
+  no exista el flujo de cotización real.
+-->
+<a href="/contacto/" class="btn btn--cotizacion" data-fase="2" title="Disponible con lógica funcional en la Fase 2 del proyecto">
+  Solicitar Cotización
+</a>

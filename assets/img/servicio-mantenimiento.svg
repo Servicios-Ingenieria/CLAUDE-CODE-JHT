@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="MANTENIMIENTO INDUSTRIAL Equipos mecánicos">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#232b32"/>
+      <stop offset="100%" stop-color="#12161a"/>
+    </linearGradient>
+    <pattern id="diag" width="26" height="26" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="26" height="26" fill="transparent"/>
+      <line x1="0" y1="0" x2="0" y2="26" stroke="#ff7b1c" stroke-width="6" stroke-opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <rect width="800" height="600" fill="url(#diag)"/>
+  <rect x="24" y="24" width="752" height="552" fill="none" stroke="#ff7b1c" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="10 8"/>
+  <text x="400" y="288" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="1">MANTENIMIENTO INDUSTRIAL</text>
+  <text x="400" y="324" font-family="Arial, sans-serif" font-size="16" fill="#c9ced3" text-anchor="middle">Equipos mecánicos</text>
+  <text x="400" y="560" font-family="Arial, sans-serif" font-size="13" fill="#ff7b1c" text-anchor="middle" letter-spacing="2">IMAGEN REFERENCIAL — REEMPLAZAR EN PRODUCCIÓN</text>
+</svg>

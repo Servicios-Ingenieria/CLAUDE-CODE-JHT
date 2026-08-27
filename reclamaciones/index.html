@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--
+  ARCHIVO: reclamaciones/index.html
+  QUÉ HACE: Libro de reclamaciones virtual (formulario visual). Fase 1:
+  NO tiene envío funcional — el formulario existe solo como maquetado; la
+  conexión a un backend/base de datos que registre y notifique el
+  reclamo se implementa en la Fase 3. El botón de envío está deshabilitado
+  a propósito para dejar explícito que aún no procesa datos reales.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro de Reclamaciones — JHT Ingeniería</title>
+  <meta name="description" content="Libro de reclamaciones de JHT Ingeniería.">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <div data-include="/components/header.html"></div>
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <p class="kicker page-header__kicker">Atención al cliente</p>
+        <h1>Libro de Reclamaciones</h1>
+        <p>Conforme a la normativa de protección al consumidor, este espacio está a tu disposición para registrar quejas o reclamos.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container" style="max-width: 820px;">
+        <div class="form-note" data-reveal>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8 V13 M12 16 H12.01"/></svg>
+          <span>Este formulario es una maqueta visual (Fase 1). El envío y registro real de reclamos se habilita en la Fase 3, cuando se conecte a la base de datos correspondiente.</span>
+        </div>
+
+        <form class="form-grid mt-lg" data-fase="3" onsubmit="return false;">
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="rec-tipo">Tipo de documento</label>
+              <select id="rec-tipo" name="tipo_reclamo" disabled>
+                <option>Reclamo</option>
+                <option>Queja</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="rec-fecha">Fecha</label>
+              <input type="date" id="rec-fecha" name="fecha" disabled>
+            </div>
+          </div>
+
+          <h3 class="mt-lg mb-0">Datos del consumidor</h3>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="rec-nombre">Nombres y apellidos</label>
+              <input type="text" id="rec-nombre" name="nombre" placeholder="Nombre completo" disabled>
+            </div>
+            <div class="form-field">
+              <label for="rec-doc">N.º de documento</label>
+              <input type="text" id="rec-doc" name="documento" placeholder="DNI / CE / RUC" disabled>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-field">
+              <label for="rec-email">Correo electrónico</label>
+              <input type="email" id="rec-email" name="email" placeholder="correo@ejemplo.com" disabled>
+            </div>
+            <div class="form-field">
+              <label for="rec-telefono">Teléfono</label>
+              <input type="tel" id="rec-telefono" name="telefono" placeholder="+51 ___ ___ ___" disabled>
+            </div>
+          </div>
+
+          <h3 class="mt-lg mb-0">Detalle del reclamo</h3>
+          <div class="form-field">
+            <label for="rec-servicio">Servicio relacionado</label>
+            <select id="rec-servicio" name="servicio" disabled>
+              <option>Estructuras metálicas</option>
+              <option>Corte láser</option>
+              <option>Soldadura especializada</option>
+              <option>Estructura de tanques</option>
+              <option>Mantenimiento industrial</option>
+              <option>Bombas y válvulas</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="rec-detalle">Descripción del reclamo o queja</label>
+            <textarea id="rec-detalle" name="detalle" rows="5" placeholder="Describe lo sucedido con el mayor detalle posible" disabled></textarea>
+          </div>
+          <div class="form-field">
+            <label for="rec-pedido">Pedido del consumidor</label>
+            <textarea id="rec-pedido" name="pedido" rows="3" placeholder="¿Qué solución esperas?" disabled></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block" disabled title="Disponible con envío funcional en la Fase 3">
+            Enviar reclamo (disponible en Fase 3)
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="/components/footer.html"></div>
+  <div data-include="/components/whatsapp-button.html"></div>
+
+  <script src="/assets/js/includes.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/animations.js"></script>
+</body>
+</html>

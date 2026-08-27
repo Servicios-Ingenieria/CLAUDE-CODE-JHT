@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+  ARCHIVO: proyectos/index.html
+  QUÉ HACE: Galería de proyectos/trabajos filtrable por sector (minería,
+  energía, industrial, construcción). Cada tarjeta funciona como mini
+  caso de estudio (reto + solución breve). El filtro se resuelve en
+  assets/js/animations.js mediante data-filter (botones) y data-sector
+  (tarjetas): oculta con [hidden] las tarjetas que no calzan, sin
+  quitarlas del DOM.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyectos — JHT Ingeniería</title>
+  <meta name="description" content="Proyectos ejecutados por JHT Ingeniería en minería, energía, industria y construcción.">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <div data-include="/components/header.html"></div>
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <p class="kicker page-header__kicker">Trabajo realizado</p>
+        <h1>Proyectos</h1>
+        <p>Una selección de proyectos ejecutados en distintos sectores. Filtra por sector para ver casos relacionados con tu industria.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <div class="filter-bar" data-filter-bar role="group" aria-label="Filtrar proyectos por sector">
+          <button type="button" class="filter-btn is-active" data-filter="todos">Todos</button>
+          <button type="button" class="filter-btn" data-filter="mineria">Minería</button>
+          <button type="button" class="filter-btn" data-filter="energia">Energía</button>
+          <button type="button" class="filter-btn" data-filter="industrial">Industrial</button>
+          <button type="button" class="filter-btn" data-filter="construccion">Construcción</button>
+        </div>
+
+        <div class="project-grid" data-reveal-group>
+          <article class="project-card" data-sector="mineria" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-mineria-01.svg" alt="Estructura de soporte para faja transportadora minera"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Minería</span>
+              <h3>Soporte de faja transportadora</h3>
+              <p><strong>Reto:</strong> reemplazar estructura de soporte sin detener la operación.<br><strong>Solución:</strong> fabricación modular y montaje programado en ventana de mantenimiento.</p>
+            </div>
+          </article>
+
+          <article class="project-card" data-sector="mineria" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-mineria-02.svg" alt="Plataforma de mantenimiento para equipo minero"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Minería</span>
+              <h3>Plataforma de mantenimiento</h3>
+              <p><strong>Reto:</strong> acceso seguro para mantenimiento en altura.<br><strong>Solución:</strong> plataforma metálica certificada con barandas de seguridad.</p>
+            </div>
+          </article>
+
+          <article class="project-card" data-sector="energia" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-energia-01.svg" alt="Estructura metálica para subestación eléctrica"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Energía</span>
+              <h3>Estructura para subestación</h3>
+              <p><strong>Reto:</strong> pórticos con tolerancias estrictas para equipos eléctricos.<br><strong>Solución:</strong> fabricación con control dimensional y montaje coordinado con el cliente.</p>
+            </div>
+          </article>
+
+          <article class="project-card" data-sector="industrial" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-industrial-01.svg" alt="Nave industrial y almacén metálico"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Industrial</span>
+              <h3>Nave industrial — almacén</h3>
+              <p><strong>Reto:</strong> gran luz libre sin columnas intermedias.<br><strong>Solución:</strong> diseño de cerchas metálicas optimizadas para el claro requerido.</p>
+            </div>
+          </article>
+
+          <article class="project-card" data-sector="construccion" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-construccion-01.svg" alt="Techo parabólico para losa deportiva"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Construcción</span>
+              <h3>Techo parabólico — losa deportiva</h3>
+              <p><strong>Reto:</strong> cobertura ligera resistente a viento.<br><strong>Solución:</strong> estructura parabólica con cobertura metálica y anclajes reforzados.</p>
+            </div>
+          </article>
+
+          <article class="project-card" data-sector="construccion" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-construccion-02.svg" alt="Puente peatonal metálico"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Construcción</span>
+              <h3>Puente peatonal metálico</h3>
+              <p><strong>Reto:</strong> montaje en zona urbana con tránsito activo.<br><strong>Solución:</strong> prefabricación en taller y montaje nocturno en una sola jornada.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight section--offwhite">
+      <div class="container">
+        <div class="cta-banner" data-reveal="scale">
+          <div>
+            <h2>¿Tu proyecto se parece a alguno de estos?</h2>
+            <p>Cuéntanos los detalles y evaluamos cómo podemos ayudarte.</p>
+          </div>
+          <a href="/contacto/" class="btn btn--secondary">Contáctanos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="/components/footer.html"></div>
+  <div data-include="/components/whatsapp-button.html"></div>
+
+  <script src="/assets/js/includes.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/animations.js"></script>
+</body>
+</html>

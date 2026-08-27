@@ -1,0 +1,68 @@
+<!--
+  ARCHIVO: components/footer.html
+  QUÉ HACE: Pie de página institucional, común a todas las páginas: marca +
+  descripción corta, columnas de navegación/servicios/legal, datos de
+  contacto rápidos, redes sociales y línea de copyright.
+  DÓNDE SE COLOCA: se incluye en cada página dentro de
+  <div data-include="/components/footer.html">, justo antes del botón de
+  WhatsApp y del cierre de </body>.
+  PENDIENTE (marcar antes de producción): reemplazar redes sociales
+  (href="#") por las cuentas reales, y el correo/teléfono por los
+  definitivos si difieren de los usados en /contacto/.
+-->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="brand">
+          <img src="/assets/img/logo.svg" alt="JHT Ingeniería" width="38" height="38">
+          JHT Ingeniería
+        </a>
+        <p>Estructuras metálicas, ingeniería y mantenimiento industrial para minería, energía, construcción e industria en el Perú.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Navegación</h3>
+        <ul>
+          <li><a href="/nosotros/">Nosotros</a></li>
+          <li><a href="/servicios/">Servicios</a></li>
+          <li><a href="/proyectos/">Proyectos</a></li>
+          <li><a href="/clientes/">Clientes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/politicas/">Políticas de calidad, SST y ambiente</a></li>
+          <li><a href="/reclamaciones/">Libro de reclamaciones</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Contacto</h3>
+        <ul>
+          <li>Av. Industrial 1234, Lima, Perú</li>
+          <li>+51 XXX XXX XXX</li>
+          <li>contacto@jht-ingenieria.pe</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> JHT Ingeniería. Todos los derechos reservados.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook" title="Reemplazar por enlace real">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-1.66 0-3 1.34-3 3v2H9v3h2v7h3v-7h3l1-3h-4V9c0-.55.45-1 1-1Z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn" title="Reemplazar por enlace real">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4V19h2.94V8.5ZM5.47 4a1.7 1.7 0 1 0 0 3.4 1.7 1.7 0 0 0 0-3.4ZM20 12.9c0-3-1.6-4.4-3.74-4.4-1.72 0-2.49.95-2.92 1.62V8.5H10.4c.04.84 0 10.5 0 10.5h2.94v-5.86c0-.31.02-.63.11-.86.25-.63.82-1.28 1.77-1.28 1.25 0 1.75.95 1.75 2.35V19H20v-6.1Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- El año de "data-year" se actualiza desde assets/js/includes.js tras la
+     carga de este fragmento: un <script> inyectado vía innerHTML no se
+     ejecuta, así que esa lógica vive en JS externo en vez de aquí. -->

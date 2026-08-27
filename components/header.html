@@ -1,0 +1,41 @@
+<!--
+  ARCHIVO: components/header.html
+  QUÉ HACE: Fragmento reutilizable del encabezado del sitio (logo, menú
+  principal, botón "Solicitar Cotización"). Se inyecta en cada página
+  dentro de <div data-include="/components/header.html"> mediante
+  assets/js/includes.js, y su comportamiento (menú móvil, header que se
+  oculta al hacer scroll) lo controla assets/js/menu.js.
+  DÓNDE SE COLOCA: justo después de <body> en cada página.
+  CÓMO SE RELACIONA: los enlaces usan rutas absolutas desde la raíz del
+  sitio ("/", "/nosotros/", etc.) para que funcionen igual sin importar
+  desde qué subcarpeta se cargue este fragmento.
+  PENDIENTE (marcar antes de producción): reemplazar /assets/img/logo.svg
+  por el logotipo real de JHT Ingeniería cuando el cliente lo entregue.
+-->
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand">
+      <img src="/assets/img/logo.svg" alt="JHT Ingeniería" width="38" height="38">
+      JHT Ingeniería
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+      <ul class="main-nav__list">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/nosotros/">Nosotros</a></li>
+        <li><a href="/servicios/">Servicios</a></li>
+        <li><a href="/proyectos/">Proyectos</a></li>
+        <li><a href="/clientes/">Clientes</a></li>
+        <li><a href="/contacto/">Contacto</a></li>
+        <li>
+          <div data-include="/components/cotizacion-boton.html"></div>
+        </li>
+      </ul>
+    </nav>
+
+    <button type="button" class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="main-nav__backdrop"></div>
+</header>

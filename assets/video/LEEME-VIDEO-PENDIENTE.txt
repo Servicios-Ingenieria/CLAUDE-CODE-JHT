@@ -1,0 +1,11 @@
+Carpeta para el video de fondo del Hero de Inicio.
+
+Coloca aquí el archivo real con el nombre exacto que referencia
+index.html: "planta-jht-loop.mp4" (video corto en loop, sin audio,
+mostrando planta/taller/obra — alto impacto visual, pocos MB).
+
+Mientras este archivo no exista, el <video> del hero fallará al cargar
+intencionalmente y assets/js/animations.js aplicará el fallback ya
+implementado: oculta el <video> y muestra la imagen de respaldo
+/assets/img/hero-fallback.svg que está detrás. Esto es esperado en la
+Fase 1 y sirve además para comprobar que el manejo de errores funciona.

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!--
+  ARCHIVO: index.html (Inicio)
+  QUÉ HACE: Página principal del sitio. Contiene el hero de alto impacto,
+  propuesta de valor, servicios principales, sectores atendidos, proyectos
+  destacados, diferenciadores de la empresa y llamado a la acción final.
+  Fase 1: solo maquetado — el botón "Solicitar Cotización" es visual.
+  CÓMO SE RELACIONA: usa components/header.html, footer.html,
+  whatsapp-button.html (inyectados por assets/js/includes.js) y los
+  estilos/scripts globales de assets/css/styles.css, assets/js/menu.js y
+  assets/js/animations.js.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JHT Ingeniería — Estructuras Metálicas e Ingeniería Industrial</title>
+  <meta name="description" content="JHT Ingeniería: estructuras metálicas, corte láser, soldadura especializada y mantenimiento industrial para minería, energía, construcción e industria en Perú.">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <div data-include="/components/header.html"></div>
+
+  <main>
+    <!-- HERO: video de fondo (con imagen de respaldo si falla) + propuesta
+         de valor y datos clave, composición asimétrica 60/40. -->
+    <section class="hero">
+      <div class="hero__media">
+        <video autoplay muted loop playsinline poster="/assets/img/hero-fallback.svg">
+          <source src="/assets/video/planta-jht-loop.mp4" type="video/mp4">
+        </video>
+        <img src="/assets/img/hero-fallback.svg" alt="Planta y taller industrial de JHT Ingeniería" data-hero-fallback>
+      </div>
+
+      <div class="container hero__content">
+        <div data-reveal>
+          <p class="hero__eyebrow">Ingeniería &amp; estructuras metálicas — Perú</p>
+          <h1 class="hero__title">Construimos la <em>infraestructura</em> que sostiene la industria</h1>
+          <p class="hero__lead">Diseñamos, fabricamos y montamos estructuras metálicas, y brindamos mantenimiento industrial especializado para minería, energía, construcción e industria — con los más altos estándares de calidad y seguridad.</p>
+          <div class="hero__actions">
+            <a href="/servicios/" class="btn btn--primary">Ver servicios</a>
+            <a href="/proyectos/" class="btn btn--secondary">Ver proyectos</a>
+          </div>
+        </div>
+
+        <div class="hero__stats" data-reveal-group>
+          <div class="hero__stat" data-reveal="right">
+            <strong data-counter="18" data-counter-suffix="+">0+</strong>
+            <span>Años de experiencia</span>
+          </div>
+          <div class="hero__stat" data-reveal="right">
+            <strong data-counter="240" data-counter-suffix="+">0+</strong>
+            <span>Proyectos entregados</span>
+          </div>
+        </div>
+      </div>
+
+      <span class="hero__scroll-cue" aria-hidden="true"></span>
+    </section>
+
+    <!-- SERVICIOS PRINCIPALES -->
+    <section class="section" id="servicios-destacados">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Lo que hacemos</p>
+          <h2>Servicios principales</h2>
+          <p>Cobertura integral: desde el diseño y fabricación hasta el montaje y mantenimiento de estructuras y equipos industriales.</p>
+        </div>
+
+        <div class="service-grid" data-reveal-group>
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 40 L24 8 L42 40 Z"/><path d="M14 40 L24 20 L34 40"/><path d="M6 40 H42"/></svg>
+            </span>
+            <h3>Estructuras metálicas</h3>
+            <p>Puentes, naves industriales, almacenes y techos parabólicos, diseñados a medida.</p>
+            <a href="/servicios/estructuras-metalicas.html" class="service-card__link">Ver especificaciones →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 8 L40 40 M40 8 L8 40"/><circle cx="24" cy="24" r="5" fill="currentColor" stroke="none"/></svg>
+            </span>
+            <h3>Corte láser a medida</h3>
+            <p>Corte de precisión sobre plancha metálica para piezas y componentes personalizados.</p>
+            <a href="/servicios/corte-laser.html" class="service-card__link">Ver especificaciones →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 38 L22 26"/><path d="M18 14 L34 30 L38 26 L22 10 Z"/><path d="M8 40 L14 34"/></svg>
+            </span>
+            <h3>Soldadura especializada</h3>
+            <p>Procesos TIG, MIG y MAG certificados, para uniones críticas de alta exigencia.</p>
+            <a href="/servicios/soldadura.html" class="service-card__link">Ver especificaciones →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="10" y="14" width="28" height="24" rx="3"/><path d="M16 14 V10 H32 V14"/><path d="M10 26 H38"/></svg>
+            </span>
+            <h3>Estructura de tanques</h3>
+            <p>Fabricación y montaje de tanques industriales bajo normas ASME/API.</p>
+            <a href="/servicios/tanques.html" class="service-card__link">Ver especificaciones →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="8"/><path d="M24 6 V12 M24 36 V42 M6 24 H12 M36 24 H42 M11 11 L15.5 15.5 M32.5 32.5 L37 37 M37 11 L32.5 15.5 M15.5 32.5 L11 37"/></svg>
+            </span>
+            <h3>Mantenimiento industrial</h3>
+            <p>Mantenimiento preventivo y correctivo de equipos mecánicos en planta.</p>
+            <a href="/servicios/mantenimiento.html" class="service-card__link">Ver especificaciones →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M24 8 V18 M24 40 V30 M14 24 H8 M40 24 H34"/><rect x="14" y="18" width="20" height="12" rx="2"/></svg>
+            </span>
+            <h3>Bombas y válvulas</h3>
+            <p>Diagnóstico, reparación y mantenimiento de bombas y válvulas industriales.</p>
+            <a href="/servicios/bombas-valvulas.html" class="service-card__link">Ver especificaciones →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTORES ATENDIDOS -->
+    <section class="section section--offwhite">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Dónde trabajamos</p>
+          <h2>Sectores atendidos</h2>
+        </div>
+        <div class="sector-row" data-reveal-group>
+          <div class="sector-row__item" data-reveal>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 40 L16 20 L24 32 L30 16 L40 40 Z"/></svg>
+            <span>Minería</span>
+          </div>
+          <div class="sector-row__item" data-reveal>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M26 6 L12 26 H22 L18 42 L36 20 H26 Z"/></svg>
+            <span>Energía</span>
+          </div>
+          <div class="sector-row__item" data-reveal>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="8" y="18" width="14" height="22"/><rect x="26" y="10" width="14" height="30"/><path d="M8 18 L15 10 L22 18"/></svg>
+            <span>Industrial</span>
+          </div>
+          <div class="sector-row__item" data-reveal>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 40 H42 M10 40 V22 L24 10 L38 22 V40"/><path d="M18 40 V28 H30 V40"/></svg>
+            <span>Construcción</span>
+          </div>
+          <div class="sector-row__item" data-reveal>
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="24" cy="24" r="16"/><path d="M24 16 V24 L30 28"/></svg>
+            <span>Mantenimiento</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROYECTOS DESTACADOS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Trabajo realizado</p>
+          <h2>Proyectos destacados</h2>
+          <p>Una muestra de los proyectos entregados en distintos sectores. Catálogo completo en la sección Proyectos.</p>
+        </div>
+
+        <div class="project-grid" data-reveal-group>
+          <article class="project-card" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-mineria-01.svg" alt="Estructura de soporte para faja transportadora minera"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Minería</span>
+              <h3>Soporte de faja transportadora</h3>
+              <p>Diseño y montaje de estructura metálica para línea de transporte de mineral.</p>
+            </div>
+          </article>
+          <article class="project-card" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-energia-01.svg" alt="Estructura metálica para subestación eléctrica"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Energía</span>
+              <h3>Estructura para subestación</h3>
+              <p>Fabricación de pórticos y soportería metálica para subestación eléctrica.</p>
+            </div>
+          </article>
+          <article class="project-card" data-reveal="scale">
+            <div class="project-card__media"><img src="/assets/img/proyecto-construccion-02.svg" alt="Puente peatonal metálico"></div>
+            <div class="project-card__body">
+              <span class="project-card__tag">Construcción</span>
+              <h3>Puente peatonal metálico</h3>
+              <p>Ingeniería, fabricación y montaje de puente peatonal en zona urbana.</p>
+            </div>
+          </article>
+        </div>
+
+        <p class="text-center mt-lg"><a href="/proyectos/" class="btn btn--secondary">Ver todos los proyectos</a></p>
+      </div>
+    </section>
+
+    <!-- DIFERENCIADORES -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Por qué JHT</p>
+          <h2>Diferenciadores</h2>
+        </div>
+        <div class="diff-list" data-reveal-group>
+          <div class="diff-list__item" data-reveal="left">
+            <div>
+              <h3>Ingeniería propia</h3>
+              <p>Cálculo y diseño estructural en casa, no tercerizado, con trazabilidad de principio a fin.</p>
+            </div>
+          </div>
+          <div class="diff-list__item" data-reveal="left">
+            <div>
+              <h3>Certificaciones vigentes</h3>
+              <p>Procesos alineados a ISO/IEC 17025, ISO 45001 y normas ASME/API según el proyecto.</p>
+            </div>
+          </div>
+          <div class="diff-list__item" data-reveal="left">
+            <div>
+              <h3>Cumplimiento de plazos</h3>
+              <p>Planificación de obra con control de avance semanal y comunicación directa con el cliente.</p>
+            </div>
+          </div>
+          <div class="diff-list__item" data-reveal="left">
+            <div>
+              <h3>Seguridad primero</h3>
+              <p>Cultura de seguridad industrial en taller y en campo, con supervisión SST permanente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="cta-banner" data-reveal="scale">
+          <div>
+            <h2>¿Tienes un proyecto en mente?</h2>
+            <p>Cuéntanos qué necesitas y te preparamos una propuesta técnica.</p>
+          </div>
+          <a href="/contacto/" class="btn btn--secondary">Contáctanos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="/components/footer.html"></div>
+  <div data-include="/components/whatsapp-button.html"></div>
+
+  <script src="/assets/js/includes.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/animations.js"></script>
+</body>
+</html>

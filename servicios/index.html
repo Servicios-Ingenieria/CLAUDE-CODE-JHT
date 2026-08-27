@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  ARCHIVO: servicios/index.html
+  QUÉ HACE: Catálogo general de servicios por categoría (sin precios,
+  Fase 1 es solo maquetado). Cada tarjeta enlaza a su ficha de detalle en
+  servicios/[categoria].html con especificaciones técnicas ampliadas.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios — JHT Ingeniería</title>
+  <meta name="description" content="Catálogo de servicios de JHT Ingeniería: estructuras metálicas, corte láser, soldadura especializada, tanques, mantenimiento industrial, bombas y válvulas.">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <div data-include="/components/header.html"></div>
+
+  <main>
+    <header class="page-header">
+      <div class="container">
+        <p class="kicker page-header__kicker">Catálogo técnico</p>
+        <h1>Servicios</h1>
+        <p>Especificaciones técnicas por categoría. Los precios se definen por proyecto: usa "Solicitar Cotización" para recibir una propuesta (disponible con lógica funcional en la Fase 2).</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <div class="service-grid" data-reveal-group>
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 40 L24 8 L42 40 Z"/><path d="M14 40 L24 20 L34 40"/><path d="M6 40 H42"/></svg>
+            </span>
+            <h3>Estructuras metálicas</h3>
+            <p>Puentes, naves industriales, almacenes y techos parabólicos.</p>
+            <a href="/servicios/estructuras-metalicas.html" class="service-card__link">Ver ficha técnica →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 8 L40 40 M40 8 L8 40"/><circle cx="24" cy="24" r="5" fill="currentColor" stroke="none"/></svg>
+            </span>
+            <h3>Corte láser a medida</h3>
+            <p>Corte de precisión sobre plancha metálica para piezas y componentes.</p>
+            <a href="/servicios/corte-laser.html" class="service-card__link">Ver ficha técnica →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10 38 L22 26"/><path d="M18 14 L34 30 L38 26 L22 10 Z"/><path d="M8 40 L14 34"/></svg>
+            </span>
+            <h3>Soldadura especializada</h3>
+            <p>Procesos TIG, MIG y MAG para uniones críticas.</p>
+            <a href="/servicios/soldadura.html" class="service-card__link">Ver ficha técnica →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="10" y="14" width="28" height="24" rx="3"/><path d="M16 14 V10 H32 V14"/><path d="M10 26 H38"/></svg>
+            </span>
+            <h3>Estructura de tanques</h3>
+            <p>Fabricación y montaje de tanques industriales bajo normas ASME/API.</p>
+            <a href="/servicios/tanques.html" class="service-card__link">Ver ficha técnica →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="24" cy="24" r="8"/><path d="M24 6 V12 M24 36 V42 M6 24 H12 M36 24 H42 M11 11 L15.5 15.5 M32.5 32.5 L37 37 M37 11 L32.5 15.5 M15.5 32.5 L11 37"/></svg>
+            </span>
+            <h3>Mantenimiento industrial</h3>
+            <p>Mantenimiento preventivo y correctivo de equipos mecánicos.</p>
+            <a href="/servicios/mantenimiento.html" class="service-card__link">Ver ficha técnica →</a>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M24 8 V18 M24 40 V30 M14 24 H8 M40 24 H34"/><rect x="14" y="18" width="20" height="12" rx="2"/></svg>
+            </span>
+            <h3>Bombas y válvulas</h3>
+            <p>Diagnóstico, reparación y mantenimiento de bombas y válvulas industriales.</p>
+            <a href="/servicios/bombas-valvulas.html" class="service-card__link">Ver ficha técnica →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight section--offwhite">
+      <div class="container">
+        <div class="cta-banner" data-reveal="scale">
+          <div>
+            <h2>¿No encuentras lo que necesitas?</h2>
+            <p>Cuéntanos tu requerimiento y evaluamos una solución a medida.</p>
+          </div>
+          <a href="/contacto/" class="btn btn--secondary">Contáctanos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="/components/footer.html"></div>
+  <div data-include="/components/whatsapp-button.html"></div>
+
+  <script src="/assets/js/includes.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/animations.js"></script>
+</body>
+</html>
