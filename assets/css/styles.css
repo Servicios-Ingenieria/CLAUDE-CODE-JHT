@@ -700,6 +700,7 @@ button, input, textarea, select {
   align-items: center;
 }
 .logo-grid__item {
+  height: 96px;
   border: 1px dashed var(--color-gray-200);
   border-radius: var(--radius-sm);
   padding: var(--space-sm);
@@ -711,7 +712,13 @@ button, input, textarea, select {
   transition: opacity var(--transition-base), filter var(--transition-base);
 }
 .logo-grid__item:hover { opacity: 1; filter: grayscale(0); }
-.logo-grid__item img { max-height: 46px; }
+.logo-grid__item img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
 
 .testimonial {
   background: var(--color-offwhite);
