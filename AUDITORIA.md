@@ -651,5 +651,95 @@ archivos automáticamente — hoy no es el caso.
 
 ---
 
-**Estado:** Fase A completa. Deteniéndome aquí, según el protocolo, a
-esperar tu autorización antes de iniciar la Fase B.
+## 15. Fase B — Limpieza ejecutada
+
+Autorizada por ti: H1 (implícita, técnica), H2 (SI), H3 (sin ambigüedad),
+H4/H5 ("Borrar"), H6 (SI), H7 (sin ambigüedad). 5 commits, uno por lote,
+en `claude/cotizacion-form-upload-wms7z1`:
+
+| Commit | Lote | Qué cambió |
+|---|---|---|
+| `d088f53` | 1 — Responsive | `html { overflow-x: hidden }` (causa raíz real) + `minmax(0, 1fr)` en `.grid--2`, `.grid--2-lead`, `.form-grid`, `.form-field`, `.form-row-2` + `table-layout: fixed` en `.spec-table` |
+| `f0d6179` | 2 — CSS muerto | Quita `.service-card{position:relative}` redundante, `--color-blue-800`, `--color-graphite-500`, `--fs-small`, `--shadow-card` (quedó sin uso al borrar `.card`), `.grid--3`, `.grid--4`, `.card`, `.visually-hidden` |
+| `b0a3e3e` | 3 — Documentación | Comentario de cabecera de `contacto/index.html` actualizado |
+| `786a19c` | 4 — Contenido | "Mantenimiento industrial" unificado en `servicios/mantenimiento.html` y `contacto/index.html` |
+| `fedbb93` | — | `assets/img/cliente-01.svg` eliminado |
+
+**Nota sobre H1 — la causa raíz real no fue la que se planteó en la Fase A:**
+el análisis inicial (sección 5, hallazgo H1) atribuyó el overflow a
+`table-layout` automático y a "grid blowout" por falta de `min-width: 0`.
+Verificando en navegador con un gesto de scroll real (no solo
+`scrollWidth`), encontré la causa dominante real: las secciones
+`[data-reveal="right"]`/`[data-reveal="left"]` (sección 14 del CSS,
+animación de aparición al hacer scroll) arrancan desplazadas ±32px vía
+`transform: translateX()` hasta que el `IntersectionObserver` las revela,
+y sin `overflow-x: hidden` en `<html>` ese desplazamiento —de una sección
+que todavía no fue revelada, aunque esté más abajo en la página— sí
+alcanza a generar scroll horizontal real. La corrección aplicada
+(`overflow-x: hidden` en `<html>`) ataca esa causa directamente; los
+cambios de `minmax(0, 1fr)`/`table-layout: fixed` se conservaron igual
+porque son un endurecimiento válido y de riesgo cero por separado (evitan
+un desbordamiento de grid/tabla independiente del sistema de animación),
+aunque no eran, por sí solos, la explicación completa de lo medido.
+
+**Cambio no listado originalmente, aplicado por ser consecuencia directa
+de uno ya autorizado:** al eliminar `.card` (H5), su único consumidor de
+`--shadow-card` desapareció, dejando esa variable también sin uso — se
+eliminó en el mismo commit por ser la misma categoría de hallazgo que ya
+autorizaste borrar, no un hallazgo nuevo e independiente.
+
+## 16. Fase C — Verificación final
+
+- [x] Las 16 páginas cargan sin error (`domcontentloaded`, 0 `navError`)
+- [x] Los CSS/JS referenciados existen y cargan (sin cambios en las rutas)
+- [x] Cero rutas rotas / referencias a archivos inexistentes
+- [x] Cero errores de JavaScript en consola (0 `pageError` en 48 combinaciones de página × viewport)
+- [x] Menú móvil funciona (abre al click en el toggle)
+- [x] Formulario de cotización se comporta correctamente: validación, envío, confirmación visible
+- [x] Animaciones de scroll funcionan (confirmado visualmente, capturas de pantalla)
+- [x] Filtro de proyectos funciona (2/2 tarjetas visibles al filtrar "Minería")
+- [x] FAQ funciona (la pregunta se abre al hacer click)
+- [x] Contadores funcionan (contador de años llega a "18+")
+- [x] Responsive correcto en 1440px, 820px y 375px
+- [x] **Cero overflow horizontal real**, verificado con un gesto de scroll (`mouse.wheel`, no `scrollTo()` — que ignora `overflow:hidden`) en las 4 páginas antes afectadas: `scrollX` se mantiene en `0` tras intentar desplazar
+- [x] El render es visualmente equivalente al estado inicial en las capturas comparadas (desktop 1440px de `nosotros/index.html` sin cambios visibles)
+
+### Informe final
+
+**ANTES:** 20 archivos HTML/CSS/JS relevantes · 0 P0 · 2 P1 · 5 P2 · 4
+observaciones P3 · overflow horizontal real medido en 9 de 48
+combinaciones página×viewport · 1 archivo huérfano e inválido · 8
+identificadores CSS sin uso · 1 regla CSS redundante · 1 comentario de
+documentación desactualizado · 1 categoría de servicio con 3 nombres
+distintos.
+
+**DESPUÉS:**
+- **Corregidos:** H1 (overflow horizontal — 0 combinaciones con scroll
+  horizontal real tras el fix), H2 (nombre unificado), H3 (regla
+  redundante eliminada), H4 (4 variables sin uso eliminadas, más
+  `--shadow-card` como consecuencia directa), H5 (4 clases sin uso
+  eliminadas), H6 (archivo huérfano eliminado), H7 (comentario
+  actualizado).
+- **Archivos modificados:** `assets/css/styles.css` (overflow-x,
+  minmax/table-layout, limpieza de CSS muerto), `contacto/index.html`
+  (comentario + nombre de categoría), `servicios/mantenimiento.html`
+  (h1 + comentario, nombre de categoría).
+- **Archivos eliminados:** `assets/img/cliente-01.svg`.
+- **Archivos nuevos:** ninguno.
+- **Cambios de riesgo medio que conviene que revises a mano:** el fix de
+  H1 (`overflow-x: hidden` en `<html>`) es el más significativo — aunque
+  verificado exhaustivamente (scroll real bloqueado, 0 errores de JS, 0
+  regresión visual en las capturas comparadas), es un cambio a nivel de
+  elemento raíz que afecta a las 16 páginas por igual; si en el futuro se
+  agrega algo que dependa intencionalmente de overflow horizontal (poco
+  probable en este sitio), habría que revisar esta regla.
+- **Pendientes, sin tocar (fuera del alcance autorizado):** O1/O2 (meta
+  descriptions mejorables), O3/O4 (video del hero y brochure PDF,
+  pendientes de que la empresa entregue los archivos reales) — ninguno es
+  un error técnico demostrable ni contenido que se haya pedido corregir.
+
+---
+
+**Estado:** Fase A, B y C completas. `AUDITORIA.md` y los 5 commits de
+limpieza están en `claude/cotizacion-form-upload-wms7z1`, pendientes de
+push y de tu revisión final.
