@@ -53,13 +53,16 @@
     });
 
     // Resalta el enlace correspondiente a la página actual comparando el
-    // pathname; funciona tanto en "/" como en "/nosotros/", etc.
+    // pathname ya resuelto por el navegador (enlace.href, no el atributo
+    // crudo): los enlaces del menú son rutas relativas que se resuelven
+    // contra la etiqueta <base> del documento (ver comentario en el
+    // <head> de cada página), así que comparar el atributo tal cual
+    // fallaría en cuanto el sitio vive bajo una subruta (p. ej. GitHub
+    // Pages "usuario.github.io/repo/").
     var rutaActual = window.location.pathname.replace(/index\.html$/, '');
     nav.querySelectorAll('a[href]').forEach(function (enlace) {
-      var hrefNormalizado = enlace.getAttribute('href').replace(/index\.html$/, '');
-      if (hrefNormalizado === rutaActual && hrefNormalizado !== '') {
-        enlace.classList.add('is-active');
-      } else if (hrefNormalizado === '/' && rutaActual === '/') {
+      var rutaEnlace = new URL(enlace.href).pathname.replace(/index\.html$/, '');
+      if (rutaEnlace === rutaActual) {
         enlace.classList.add('is-active');
       }
     });
@@ -91,7 +94,7 @@
   // esperamos su evento en vez de DOMContentLoaded directamente. Si
   // includes.js no está presente en la página (poco probable), se intenta
   // igual tras DOMContentLoaded como red de seguridad.
-  if (document.querySelector('[data-include="/components/header.html"]')) {
+  if (document.querySelector('[data-include="components/header.html"]')) {
     window.addEventListener('includes:loaded', inicializarMenu);
   } else {
     document.addEventListener('DOMContentLoaded', inicializarMenu);

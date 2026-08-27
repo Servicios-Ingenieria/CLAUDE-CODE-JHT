@@ -13,28 +13,35 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <!-- BASE PARA PREVIEW EN GITHUB PAGES (repo bajo subruta /CLAUDE-CODE-JHT/):
+       las rutas internas del sitio son relativas y se resuelven contra esta
+       etiqueta <base>, por eso funcionan igual en index.html que en
+       servicios/estructuras-metalicas.html. AL PASAR A PRODUCCIÓN (dominio
+       propio, servido desde la raíz), cambiar el href a "/" o eliminar
+       esta etiqueta por completo. -->
+  <base href="/CLAUDE-CODE-JHT/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JHT Ingeniería — Estructuras Metálicas e Ingeniería Industrial</title>
   <meta name="description" content="JHT Ingeniería: estructuras metálicas, corte láser, soldadura especializada y mantenimiento industrial para minería, energía, construcción e industria en Perú.">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
-  <div data-include="/components/header.html"></div>
+  <div data-include="components/header.html"></div>
 
   <main>
     <!-- HERO: video de fondo (con imagen de respaldo si falla) + propuesta
          de valor y datos clave, composición asimétrica 60/40. -->
     <section class="hero">
       <div class="hero__media">
-        <video autoplay muted loop playsinline poster="/assets/img/hero-fallback.svg">
-          <source src="/assets/video/planta-jht-loop.mp4" type="video/mp4">
+        <video autoplay muted loop playsinline poster="assets/img/hero-fallback.svg">
+          <source src="assets/video/planta-jht-loop.mp4" type="video/mp4">
         </video>
-        <img src="/assets/img/hero-fallback.svg" alt="Planta y taller industrial de JHT Ingeniería" data-hero-fallback>
+        <img src="assets/img/hero-fallback.svg" alt="Planta y taller industrial de JHT Ingeniería" data-hero-fallback>
       </div>
 
       <div class="container hero__content">
@@ -43,8 +50,8 @@
           <h1 class="hero__title">Construimos la <em>infraestructura</em> que sostiene la industria</h1>
           <p class="hero__lead">Diseñamos, fabricamos y montamos estructuras metálicas, y brindamos mantenimiento industrial especializado para minería, energía, construcción e industria — con los más altos estándares de calidad y seguridad.</p>
           <div class="hero__actions">
-            <a href="/servicios/" class="btn btn--primary">Ver servicios</a>
-            <a href="/proyectos/" class="btn btn--secondary">Ver proyectos</a>
+            <a href="servicios/" class="btn btn--primary">Ver servicios</a>
+            <a href="proyectos/" class="btn btn--secondary">Ver proyectos</a>
           </div>
         </div>
 
@@ -79,7 +86,7 @@
             </span>
             <h3>Estructuras metálicas</h3>
             <p>Puentes, naves industriales, almacenes y techos parabólicos, diseñados a medida.</p>
-            <a href="/servicios/estructuras-metalicas.html" class="service-card__link">Ver especificaciones →</a>
+            <a href="servicios/estructuras-metalicas.html" class="service-card__link">Ver especificaciones →</a>
           </article>
 
           <article class="service-card" data-reveal>
@@ -88,7 +95,7 @@
             </span>
             <h3>Corte láser a medida</h3>
             <p>Corte de precisión sobre plancha metálica para piezas y componentes personalizados.</p>
-            <a href="/servicios/corte-laser.html" class="service-card__link">Ver especificaciones →</a>
+            <a href="servicios/corte-laser.html" class="service-card__link">Ver especificaciones →</a>
           </article>
 
           <article class="service-card" data-reveal>
@@ -97,7 +104,7 @@
             </span>
             <h3>Soldadura especializada</h3>
             <p>Procesos TIG, MIG y MAG certificados, para uniones críticas de alta exigencia.</p>
-            <a href="/servicios/soldadura.html" class="service-card__link">Ver especificaciones →</a>
+            <a href="servicios/soldadura.html" class="service-card__link">Ver especificaciones →</a>
           </article>
 
           <article class="service-card" data-reveal>
@@ -106,7 +113,7 @@
             </span>
             <h3>Estructura de tanques</h3>
             <p>Fabricación y montaje de tanques industriales bajo normas ASME/API.</p>
-            <a href="/servicios/tanques.html" class="service-card__link">Ver especificaciones →</a>
+            <a href="servicios/tanques.html" class="service-card__link">Ver especificaciones →</a>
           </article>
 
           <article class="service-card" data-reveal>
@@ -115,7 +122,7 @@
             </span>
             <h3>Mantenimiento industrial</h3>
             <p>Mantenimiento preventivo y correctivo de equipos mecánicos en planta.</p>
-            <a href="/servicios/mantenimiento.html" class="service-card__link">Ver especificaciones →</a>
+            <a href="servicios/mantenimiento.html" class="service-card__link">Ver especificaciones →</a>
           </article>
 
           <article class="service-card" data-reveal>
@@ -124,7 +131,7 @@
             </span>
             <h3>Bombas y válvulas</h3>
             <p>Diagnóstico, reparación y mantenimiento de bombas y válvulas industriales.</p>
-            <a href="/servicios/bombas-valvulas.html" class="service-card__link">Ver especificaciones →</a>
+            <a href="servicios/bombas-valvulas.html" class="service-card__link">Ver especificaciones →</a>
           </article>
         </div>
       </div>
@@ -173,7 +180,7 @@
 
         <div class="project-grid" data-reveal-group>
           <article class="project-card" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-mineria-01.svg" alt="Estructura de soporte para faja transportadora minera"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-mineria-01.svg" alt="Estructura de soporte para faja transportadora minera"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Minería</span>
               <h3>Soporte de faja transportadora</h3>
@@ -181,7 +188,7 @@
             </div>
           </article>
           <article class="project-card" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-energia-01.svg" alt="Estructura metálica para subestación eléctrica"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-energia-01.svg" alt="Estructura metálica para subestación eléctrica"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Energía</span>
               <h3>Estructura para subestación</h3>
@@ -189,7 +196,7 @@
             </div>
           </article>
           <article class="project-card" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-construccion-02.svg" alt="Puente peatonal metálico"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-construccion-02.svg" alt="Puente peatonal metálico"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Construcción</span>
               <h3>Puente peatonal metálico</h3>
@@ -198,7 +205,7 @@
           </article>
         </div>
 
-        <p class="text-center mt-lg"><a href="/proyectos/" class="btn btn--secondary">Ver todos los proyectos</a></p>
+        <p class="text-center mt-lg"><a href="proyectos/" class="btn btn--secondary">Ver todos los proyectos</a></p>
       </div>
     </section>
 
@@ -246,17 +253,17 @@
             <h2>¿Tienes un proyecto en mente?</h2>
             <p>Cuéntanos qué necesitas y te preparamos una propuesta técnica.</p>
           </div>
-          <a href="/contacto/" class="btn btn--secondary">Contáctanos</a>
+          <a href="contacto/" class="btn btn--secondary">Contáctanos</a>
         </div>
       </div>
     </section>
   </main>
 
-  <div data-include="/components/footer.html"></div>
-  <div data-include="/components/whatsapp-button.html"></div>
+  <div data-include="components/footer.html"></div>
+  <div data-include="components/whatsapp-button.html"></div>
 
-  <script src="/assets/js/includes.js"></script>
-  <script src="/assets/js/menu.js"></script>
-  <script src="/assets/js/animations.js"></script>
+  <script src="assets/js/includes.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <script src="assets/js/animations.js"></script>
 </body>
 </html>

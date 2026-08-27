@@ -11,18 +11,25 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <!-- BASE PARA PREVIEW EN GITHUB PAGES (repo bajo subruta /CLAUDE-CODE-JHT/):
+       las rutas internas del sitio son relativas y se resuelven contra esta
+       etiqueta <base>, por eso funcionan igual en index.html que en
+       servicios/estructuras-metalicas.html. AL PASAR A PRODUCCIÓN (dominio
+       propio, servido desde la raíz), cambiar el href a "/" o eliminar
+       esta etiqueta por completo. -->
+  <base href="/CLAUDE-CODE-JHT/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proyectos — JHT Ingeniería</title>
   <meta name="description" content="Proyectos ejecutados por JHT Ingeniería en minería, energía, industria y construcción.">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
-  <div data-include="/components/header.html"></div>
+  <div data-include="components/header.html"></div>
 
   <main>
     <header class="page-header">
@@ -45,7 +52,7 @@
 
         <div class="project-grid" data-reveal-group>
           <article class="project-card" data-sector="mineria" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-mineria-01.svg" alt="Estructura de soporte para faja transportadora minera"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-mineria-01.svg" alt="Estructura de soporte para faja transportadora minera"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Minería</span>
               <h3>Soporte de faja transportadora</h3>
@@ -54,7 +61,7 @@
           </article>
 
           <article class="project-card" data-sector="mineria" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-mineria-02.svg" alt="Plataforma de mantenimiento para equipo minero"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-mineria-02.svg" alt="Plataforma de mantenimiento para equipo minero"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Minería</span>
               <h3>Plataforma de mantenimiento</h3>
@@ -63,7 +70,7 @@
           </article>
 
           <article class="project-card" data-sector="energia" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-energia-01.svg" alt="Estructura metálica para subestación eléctrica"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-energia-01.svg" alt="Estructura metálica para subestación eléctrica"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Energía</span>
               <h3>Estructura para subestación</h3>
@@ -72,7 +79,7 @@
           </article>
 
           <article class="project-card" data-sector="industrial" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-industrial-01.svg" alt="Nave industrial y almacén metálico"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-industrial-01.svg" alt="Nave industrial y almacén metálico"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Industrial</span>
               <h3>Nave industrial — almacén</h3>
@@ -81,7 +88,7 @@
           </article>
 
           <article class="project-card" data-sector="construccion" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-construccion-01.svg" alt="Techo parabólico para losa deportiva"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-construccion-01.svg" alt="Techo parabólico para losa deportiva"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Construcción</span>
               <h3>Techo parabólico — losa deportiva</h3>
@@ -90,7 +97,7 @@
           </article>
 
           <article class="project-card" data-sector="construccion" data-reveal="scale">
-            <div class="project-card__media"><img src="/assets/img/proyecto-construccion-02.svg" alt="Puente peatonal metálico"></div>
+            <div class="project-card__media"><img src="assets/img/proyecto-construccion-02.svg" alt="Puente peatonal metálico"></div>
             <div class="project-card__body">
               <span class="project-card__tag">Construcción</span>
               <h3>Puente peatonal metálico</h3>
@@ -108,17 +115,17 @@
             <h2>¿Tu proyecto se parece a alguno de estos?</h2>
             <p>Cuéntanos los detalles y evaluamos cómo podemos ayudarte.</p>
           </div>
-          <a href="/contacto/" class="btn btn--secondary">Contáctanos</a>
+          <a href="contacto/" class="btn btn--secondary">Contáctanos</a>
         </div>
       </div>
     </section>
   </main>
 
-  <div data-include="/components/footer.html"></div>
-  <div data-include="/components/whatsapp-button.html"></div>
+  <div data-include="components/footer.html"></div>
+  <div data-include="components/whatsapp-button.html"></div>
 
-  <script src="/assets/js/includes.js"></script>
-  <script src="/assets/js/menu.js"></script>
-  <script src="/assets/js/animations.js"></script>
+  <script src="assets/js/includes.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <script src="assets/js/animations.js"></script>
 </body>
 </html>

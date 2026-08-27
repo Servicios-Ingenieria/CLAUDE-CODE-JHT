@@ -19,12 +19,14 @@
  * que ya no queden pendientes.
  *
  * CÓMO SE RELACIONA: lee la ruta del fragmento desde el atributo
- * data-include del contenedor. Las rutas de los componentes se resuelven
- * siempre desde la raíz del sitio (empiezan con "/") para que funcionen
- * igual desde index.html como desde nosotros/index.html, servicios/*.html,
- * etc. Dispara el evento "includes:loaded" en window cuando termina, para
- * que animations.js y menu.js puedan engancharse recién ahí (los elementos
- * inyectados no existen antes de ese evento).
+ * data-include del contenedor y se la pasa tal cual a fetch(). Esas rutas
+ * son relativas (ej. "components/header.html", sin "/" inicial) y el
+ * navegador las resuelve contra la etiqueta <base> del <head> de cada
+ * página (ver comentario ahí), así que funcionan igual desde index.html
+ * que desde nosotros/index.html, servicios/*.html, etc. Dispara el evento
+ * "includes:loaded" en window cuando termina, para que animations.js y
+ * menu.js puedan engancharse recién ahí (los elementos inyectados no
+ * existen antes de ese evento).
  *
  * NOTA DE DESARROLLO: fetch() de archivos locales requiere servir el sitio
  * con un servidor HTTP (ej. `npx serve`, Live Server, etc.). Abrir los

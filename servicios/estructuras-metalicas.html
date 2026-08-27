@@ -8,18 +8,25 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <!-- BASE PARA PREVIEW EN GITHUB PAGES (repo bajo subruta /CLAUDE-CODE-JHT/):
+       las rutas internas del sitio son relativas y se resuelven contra esta
+       etiqueta <base>, por eso funcionan igual en index.html que en
+       servicios/estructuras-metalicas.html. AL PASAR A PRODUCCIÓN (dominio
+       propio, servido desde la raíz), cambiar el href a "/" o eliminar
+       esta etiqueta por completo. -->
+  <base href="/CLAUDE-CODE-JHT/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Estructuras Metálicas — Servicios — JHT Ingeniería</title>
   <meta name="description" content="Diseño, fabricación y montaje de estructuras metálicas: puentes, naves industriales, almacenes y techos parabólicos.">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
-  <div data-include="/components/header.html"></div>
+  <div data-include="components/header.html"></div>
 
   <main>
     <header class="page-header">
@@ -32,8 +39,8 @@
 
     <section class="section">
       <div class="container">
-        <p class="service-crumbs"><a href="/servicios/">Servicios</a> / Estructuras metálicas</p>
-        <img class="service-hero" src="/assets/img/servicio-estructuras.svg" alt="Estructura metálica industrial — imagen referencial">
+        <p class="service-crumbs"><a href="servicios/">Servicios</a> / Estructuras metálicas</p>
+        <img class="service-hero" src="assets/img/servicio-estructuras.svg" alt="Estructura metálica industrial — imagen referencial">
 
         <div class="grid grid--2-lead">
           <div data-reveal="left">
@@ -72,17 +79,17 @@
             <h2>¿Necesitas una estructura a medida?</h2>
             <p>Cuéntanos las dimensiones y el uso previsto de tu proyecto.</p>
           </div>
-          <a href="/contacto/" class="btn btn--secondary">Solicitar información</a>
+          <a href="contacto/" class="btn btn--secondary">Solicitar información</a>
         </div>
       </div>
     </section>
   </main>
 
-  <div data-include="/components/footer.html"></div>
-  <div data-include="/components/whatsapp-button.html"></div>
+  <div data-include="components/footer.html"></div>
+  <div data-include="components/whatsapp-button.html"></div>
 
-  <script src="/assets/js/includes.js"></script>
-  <script src="/assets/js/menu.js"></script>
-  <script src="/assets/js/animations.js"></script>
+  <script src="assets/js/includes.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <script src="assets/js/animations.js"></script>
 </body>
 </html>
