@@ -2,11 +2,15 @@
 <!--
   ARCHIVO: contacto/index.html
   QUÉ HACE: Página de contacto / solicitud de cotización: formulario con
-  validación nativa (HTML5 required + type="email") y una confirmación
-  simulada al enviarlo (ver inicializarFormularioContacto() en
-  assets/js/animations.js) — sigue sin backend real, eso es Fase 3; mapa
-  de Google Maps embebido + enlace "Ver en Google Maps", datos de
-  contacto y horario de atención.
+  validación nativa (HTML5 required + type="email"), campo "Adjuntar
+  archivos" con validación de tipo/peso en el propio navegador (máx. 3
+  archivos, 10 MB c/u — ver COTIZACION_MAX_ARCHIVOS/COTIZACION_MAX_PESO_MB
+  en assets/js/animations.js) y una confirmación al enviarlo (ver
+  inicializarFormularioContacto() en assets/js/animations.js). El envío
+  usa fetch() contra la constante COTIZACION_ENDPOINT: mientras esté
+  vacía (Fase 1/2) el envío queda simulado, sin backend real todavía —
+  eso es Fase 3. Además: mapa de Google Maps embebido + enlace "Ver en
+  Google Maps", datos de contacto y horario de atención.
   PENDIENTE (antes de producción): reemplazar la dirección del mapa, el
   teléfono, el correo y el horario por los datos reales de la empresa.
 -->
