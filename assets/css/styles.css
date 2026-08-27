@@ -28,11 +28,9 @@
   --color-graphite-900: #1a2126;
   --color-graphite-800: #232b32;
   --color-graphite-700: #3a444d;
-  --color-graphite-500: #5b6670;
 
   /* Color — azul industrial (marca) */
   --color-blue-900: #0e2b47;
-  --color-blue-800: #123a5e;
   --color-blue-700: #1c4d7c;
   --color-blue-500: #2f6ea5;
   --color-blue-100: #dce8f2;
@@ -63,7 +61,6 @@
   --fs-h2: clamp(1.8rem, 2.4vw + 1rem, 2.6rem);
   --fs-h3: clamp(1.3rem, 1.2vw + 1rem, 1.7rem);
   --fs-body: 1rem;
-  --fs-small: 0.875rem;
 
   /* Espaciado */
   --space-xs: 0.5rem;
@@ -81,8 +78,6 @@
   --header-height: 84px;
 
   /* Sombra / transición */
-  --shadow-card: 0 12px 30px -12px rgba(14, 27, 41, 0.35);
-  --shadow-soft: 0 4px 18px rgba(14, 27, 41, 0.12);
   --transition-base: 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -98,6 +93,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  /* Las secciones [data-reveal="left"/"right"] arrancan desplazadas
+     ±32px (translateX) antes de entrar en pantalla y animarse a su
+     posición final (ver sección 14, ANIMACIONES DE SCROLL). Sin este
+     overflow-x en el elemento raíz (el que realmente controla el
+     scroll de la página, no <body>), ese desplazamiento de una sección
+     que todavía no fue revelada — aunque esté más abajo en la página —
+     alcanza a generar una franja de scroll horizontal real, sobre todo
+     en mobile angosto. */
+  overflow-x: hidden;
 }
 
 body {
@@ -528,19 +532,8 @@ button, input, textarea, select {
   display: grid;
   gap: var(--space-md);
 }
-.grid--2 { grid-template-columns: repeat(2, 1fr); align-items: center; }
-.grid--2-lead { grid-template-columns: 1.2fr 1fr; align-items: start; }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--4 { grid-template-columns: repeat(4, 1fr); }
-
-.card {
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-card); }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; }
+.grid--2-lead { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; }
 
 /* Grid asimétrico de servicios: la segunda y quinta tarjeta "flotan" más
    arriba para romper la retícula perfectamente simétrica. */
@@ -550,7 +543,7 @@ button, input, textarea, select {
   color: var(--color-white);
   border-radius: var(--radius-md);
   padding: var(--space-lg) var(--space-md) var(--space-md);
-  position: relative;
+  position: relative; /* referencia para el numeral en la esquina (.service-card__number) */
   overflow: hidden;
   min-height: 280px;
   display: flex;
@@ -745,8 +738,12 @@ button, input, textarea, select {
 /* ----------------------------------------------------------------------------
    10. FORMULARIOS (Contacto / Reclamaciones) — visuales, sin envío en Fase 1
 ---------------------------------------------------------------------------- */
-.form-grid { display: grid; gap: var(--space-md); }
-.form-field { display: grid; gap: 0.4rem; }
+/* grid-template-columns explícito con minmax(0, 1fr) en vez de dejarlo
+   implícito o en "1fr" a secas: sin el mínimo en 0, la columna no puede
+   encogerse por debajo del min-content de su contenido (selects, texto
+   largo) y termina desbordando el viewport en mobile angosto. */
+.form-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
+.form-field { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
 .form-field label {
   font-family: var(--font-heading);
   font-size: 0.8rem;
@@ -770,7 +767,7 @@ button, input, textarea, select {
   border-color: var(--color-blue-500);
   box-shadow: 0 0 0 3px rgba(47, 110, 165, 0.18);
 }
-.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+.form-row-2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-md); }
 
 .form-note {
   display: flex;
@@ -850,7 +847,12 @@ button, input, textarea, select {
   overflow: hidden;
   margin-bottom: var(--space-lg);
 }
-.spec-table { width: 100%; border-collapse: collapse; }
+/* table-layout: fixed evita que celdas con texto largo sin espacios
+   (ej. "Acero estructural ASTM A36 / A572, según diseño") fuercen la
+   tabla completa a ensancharse más allá del viewport en mobile — con
+   layout automático, el ancho de columna se calcula por contenido en
+   vez de respetar el 40%/60% ya definido para th/td. */
+.spec-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .spec-table caption {
   text-align: left;
   font-family: var(--font-heading);
@@ -1021,9 +1023,6 @@ button, input, textarea, select {
 ---------------------------------------------------------------------------- */
 
 /* --- Tarjetas de servicio "v2": numeración + tag técnico + bullets + CTA propio --- */
-.service-card {
-  position: relative; /* referencia para el numeral en la esquina */
-}
 .service-card__number {
   position: absolute;
   top: var(--space-sm);
@@ -1238,10 +1237,6 @@ button, input, textarea, select {
 .text-center { text-align: center; }
 .mt-lg { margin-top: var(--space-lg); }
 .mb-0 { margin-bottom: 0 !important; }
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap;
-}
 .badge-note {
   display: inline-block;
   font-size: 0.72rem;
@@ -1296,9 +1291,9 @@ button, input, textarea, select {
   .policy-grid,
   .footer-grid,
   .grid--2,
-  .grid--2-lead { grid-template-columns: 1fr; }
+  .grid--2-lead { grid-template-columns: minmax(0, 1fr); }
   .service-card:nth-child(2n) { transform: none; }
-  .form-row-2 { grid-template-columns: 1fr; }
+  .form-row-2 { grid-template-columns: minmax(0, 1fr); }
   .cta-banner { flex-direction: column; align-items: flex-start; }
   .sector-row { grid-template-columns: repeat(2, 1fr); }
   .logo-grid { grid-template-columns: repeat(2, 1fr); }
