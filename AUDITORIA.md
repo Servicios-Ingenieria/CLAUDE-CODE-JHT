@@ -4,36 +4,52 @@
 > ningún archivo del repositorio. Cada hallazgo cita `archivo:línea` y fue
 > verificado leyendo el contenido real (análisis estático con scripts
 > propios sobre el repo + recorrido en navegador headless de las 16
-> páginas en 5 anchos de viewport, con captura de errores de consola y
-> overflow horizontal).
+> páginas en 3 anchos de viewport — 1440px, 820px, 375px —, con captura
+> de errores de consola/JavaScript y medición real de overflow
+> horizontal).
 
 ## 1. Resumen ejecutivo
 
-El sitio está en buen estado general: **0 hallazgos P0** (nada roto),
-**1 hallazgo P1** (inconsistencia de nombre en la categoría de servicio
-"Mantenimiento", repetida en 3 variantes distintas entre página, tarjetas
-y formularios) y **4 hallazgos P2** (CSS redundante/no usado y un archivo
-huérfano inválido). No hay rutas rotas reales, no hay HTML inválido, no
-hay `id` duplicados, no faltan `alt`, no hay clases usadas sin estilo, y
-el formulario de cotización (incl. adjuntar archivos) y el resto de la
-interactividad se comportan como se documentan. Los 5 problemas más
-relevantes:
+El sitio está en buen estado general: **0 hallazgos P0** (nada roto,
+ningún JS lanza excepción), **2 hallazgos P1** — uno de responsive real
+(overflow horizontal en mobile estrecho, verificado en navegador, en 9
+de las 48 combinaciones página×viewport probadas) y uno de contenido
+(inconsistencia de nombre en la categoría "Mantenimiento") — y **5
+hallazgos P2** (CSS redundante/no usado y un archivo huérfano inválido).
+No hay rutas rotas reales, no hay HTML inválido, no hay `id` duplicados,
+no faltan `alt`, no hay clases usadas sin estilo, y el formulario de
+cotización (incl. adjuntar archivos) y el resto de la interactividad se
+comportan como se documentan. Los 5 problemas más relevantes:
 
-1. **[P1]** Tres nombres distintos para la categoría "Mantenimiento
+1. **[P1]** Overflow horizontal real en viewport de 375px (mobile
+   estrecho) en `nosotros/`, las 6 fichas de `servicios/`, `contacto/` y
+   `reclamaciones/` — verificado midiendo `document.documentElement.scrollWidth`
+   en navegador real, con el elemento causante identificado en cada caso.
+2. **[P1]** Tres nombres distintos para la categoría "Mantenimiento
    industrial" (`servicios/mantenimiento.html`, `contacto/index.html`).
-2. **[P2]** `assets/img/cliente-01.svg`: archivo huérfano (0 referencias)
+3. **[P2]** `assets/img/cliente-01.svg`: archivo huérfano (0 referencias)
    y con contenido inválido (no es SVG real).
-3. **[P2]** `.service-card { position: relative; }` redeclarado sin
+4. **[P2]** `.service-card { position: relative; }` redeclarado sin
    ningún efecto en `assets/css/styles.css:1024`.
-4. **[P2]** 4 variables CSS (`--color-blue-800`, `--color-graphite-500`,
+5. **[P2]** 4 variables CSS (`--color-blue-800`, `--color-graphite-500`,
    `--fs-small`, `--shadow-soft`) y 4 clases (`.card`, `.grid--3`,
    `.grid--4`, `.visually-hidden`) definidas y nunca usadas.
-5. **[P2]** Comentario de cabecera de `contacto/index.html` desactualizado
-   respecto al formulario real (no menciona adjuntar archivos ni
-   `COTIZACION_ENDPOINT`).
 
 Ningún hallazgo requiere reestructurar páginas, cambiar diseño, ni tocar
-contenido comercial. Todo es corregible sin alterar el resultado visual.
+contenido comercial. Todo es corregible sin alterar el resultado visual
+en los tamaños de pantalla donde el sitio ya se ve bien.
+
+**Nota metodológica sobre la verificación en navegador:** el entorno
+donde corrí esta auditoría bloquea el acceso de red a dominios externos
+(Google Fonts, Google Maps), lo que en un primer intento generó cientos
+de reintentos de conexión y falsos "timeout" que no reflejaban un
+problema real del sitio. Repetí la verificación interceptando y
+abortando esas peticiones externas de forma explícita (en producción sí
+cargan) para poder medir el comportamiento real del sitio: las 48
+combinaciones de 16 páginas × 3 viewports (1440px, 820px, 375px)
+cargaron sin errores de JavaScript y sin overflow horizontal en desktop
+ni tablet; el overflow que se reporta abajo es real y aparece
+específicamente en 375px.
 
 ---
 
@@ -86,7 +102,7 @@ de header) → `includes.js` → `menu.js` → `animations.js`. Orden
 verificado idéntico en las 16 páginas (sin excepciones).
 
 **Archivos huérfanos** (no referenciados desde ningún HTML/CSS):
-- `assets/img/cliente-01.svg` — ver hallazgo P2 más abajo. Es el único
+- `assets/img/cliente-01.svg` — ver hallazgo H6 más abajo. Es el único
   huérfano real del repo.
 
 Todo el resto de `assets/img/*` tiene al menos 1 referencia real
@@ -112,18 +128,19 @@ razonable para una imagen que ya se sirve con `loading="lazy"`.
 
 | ID | Severidad | Área | Archivo | Título |
 |---|---|---|---|---|
-| H1 | P1 | Contenido/Nomenclatura | `servicios/mantenimiento.html`, `contacto/index.html` | 3 nombres distintos para "Mantenimiento industrial" |
-| H2 | P2 | CSS | `assets/css/styles.css:1024` | `.service-card { position: relative; }` redundante |
-| H3 | P2 | CSS | `assets/css/styles.css` (`:root`) | 4 variables CSS sin uso |
-| H4 | P2 | CSS | `assets/css/styles.css` | 4 clases CSS sin uso (`.card`, `.grid--3`, `.grid--4`, `.visually-hidden`) |
-| H5 | P2 | Archivos | `assets/img/cliente-01.svg` | Huérfano + contenido SVG inválido |
-| H6 | P2 | Documentación | `contacto/index.html:1-12` | Comentario de cabecera desactualizado |
+| H1 | P1 | Responsive | `nosotros/`, `servicios/*.html` (×6), `contacto/`, `reclamaciones/` | Overflow horizontal real en mobile (375px) |
+| H2 | P1 | Contenido/Nomenclatura | `servicios/mantenimiento.html`, `contacto/index.html` | 3 nombres distintos para "Mantenimiento industrial" |
+| H3 | P2 | CSS | `assets/css/styles.css:1024` | `.service-card { position: relative; }` redundante |
+| H4 | P2 | CSS | `assets/css/styles.css` (`:root`) | 4 variables CSS sin uso |
+| H5 | P2 | CSS | `assets/css/styles.css` | 4 clases CSS sin uso (`.card`, `.grid--3`, `.grid--4`, `.visually-hidden`) |
+| H6 | P2 | Archivos | `assets/img/cliente-01.svg` | Huérfano + contenido SVG inválido |
+| H7 | P2 | Documentación | `contacto/index.html:1-12` | Comentario de cabecera desactualizado |
 | O1 | P3 | SEO | `index.html` | Meta description de 166 caracteres (excede ~160) |
 | O2 | P3 | SEO | `reclamaciones/index.html` | Meta description muy corta (42 caracteres) |
 | O3 | P3 | Recursos | `assets/video/` | Video del hero no incluido (placeholder documentado, fallback probado) |
 | O4 | P3 | Recursos | `assets/docs/brochure-corporativo-jht.pdf` | PDF placeholder ya marcado como pendiente |
 
-**P0: 0 · P1: 1 · P2: 4 · P3: 4**
+**P0: 0 · P1: 2 · P2: 5 · P3: 4**
 
 ---
 
@@ -162,10 +179,95 @@ Ninguno. Verificado explícitamente:
   de fallback de multimedia): el `<video>` falla intencionalmente, se
   oculta, y queda visible `assets/img/hero-fallback.svg`. Ver hallazgo
   O3.
+- **Verificación en navegador real** (Chromium headless, ver nota
+  metodológica en el resumen ejecutivo): las 16 páginas cargan sin
+  errores de JavaScript (`0` excepciones de página en las 48
+  combinaciones de 16 páginas × 3 viewports) y sin overflow horizontal en
+  1440px (desktop) ni 820px (tablet). El único problema real detectado
+  fue overflow horizontal en 375px (mobile estrecho) — no es un P0
+  porque no rompe la página ni bloquea su uso (el contenido sigue siendo
+  legible y funcional, solo aparece una franja de scroll horizontal no
+  deseada), pero es un P1 real de responsive: ver H1 más abajo.
 
 ## 5. Hallazgos P1 — Importante
 
-### H1 — Tres nombres distintos para la misma categoría de servicio ("Mantenimiento")
+### H1 — Overflow horizontal real en mobile (375px)
+
+**Evidencia (medida directa de `document.documentElement.scrollWidth` vs. `clientWidth` en Chromium, viewport 375×812):**
+
+| Página | `scrollWidth` | `clientWidth` | Overflow |
+|---|---|---|---|
+| `nosotros/index.html` | 454px | 375px | **79px** |
+| `servicios/estructuras-metalicas.html` | 387px | 375px | 12px |
+| `servicios/corte-laser.html` | 387px | 375px | 12px |
+| `servicios/soldadura.html` | 387px | 375px | 12px |
+| `servicios/tanques.html` | 387px | 375px | 12px |
+| `servicios/mantenimiento.html` | 387px | 375px | 12px |
+| `servicios/bombas-valvulas.html` | 387px | 375px | 12px |
+| `contacto/index.html` | 389px | 375px | 14px |
+| `reclamaciones/index.html` | 430px | 375px | **55px** |
+
+`index.html`, `servicios/index.html`, `proyectos/index.html`,
+`clientes/index.html`, `valor/index.html` y `faqs/index.html` **no**
+presentan overflow en este viewport.
+
+**Causas identificadas, verificadas elemento por elemento con
+`getBoundingClientRect()` en el propio navegador:**
+
+1. **Las 6 fichas de `servicios/*.html`** (idéntico patrón, ej.
+   `servicios/estructuras-metalicas.html:53-62`): la tabla
+   `.spec-table` (definida en `assets/css/styles.css`, sección 10-B) no
+   tiene `table-layout: fixed`, así que sus columnas se dimensionan por
+   contenido (`table-layout: auto`). Con textos largos y sin espacios en
+   las celdas (ej. "Acero estructural ASTM A36 / A572, según diseño"),
+   la tabla completa termina midiendo 335px pero su columna derecha
+   fuerza a la tabla entera a desplazarse y salir 12px del viewport
+   (confirmado: `<table class="spec-table">` con `right: 387px` sobre un
+   contenedor de 375px de ancho).
+2. **`reclamaciones/index.html:47` (`<select id="rec-tipo">` dentro de
+   `.form-row-2` → `.form-field`)**: es el caso más grave (55px). Tracé
+   la cadena completa de ancestros: el `<form class="form-grid">` mide
+   correctamente 335px, pero su hijo directo `.form-row-2` mide 410px —
+   **más ancho que su propio contenedor**. Es el patrón clásico de
+   "grid blowout": `.form-grid` no define `grid-template-columns`
+   (`assets/css/styles.css`, selector `.form-grid`), así que sus
+   columnas implícitas se dimensionan por contenido en vez de ajustarse
+   al ancho disponible, y el `min-width: auto` por defecto de los ítems
+   de grid impide que se encojan. Mismo mecanismo, en menor medida,
+   probablemente afecta a `contacto/index.html` (`.form-note`/
+   `.contact-info__item`, 14px) y a `nosotros/index.html` en el bloque
+   "Nuestro equipo" (`.grid.grid--2`, 79px — el mayor de todos), aunque
+   en estos dos casos no llegué a aislar el elemento exacto con la misma
+   certeza que en `reclamaciones/` por los límites de tiempo de esta
+   auditoría; **queda marcado para revisión visual directa en Fase B**
+   antes de aplicar una corrección, en vez de asumir la misma causa sin
+   confirmarla (regla 7).
+
+**Impacto:** en un teléfono angosto (iPhone SE/mini, muchos Android de
+gama media, 360-375px de ancho de viewport), estas páginas muestran una
+barra de scroll horizontal y el usuario puede desplazar el contenido
+lateralmente más allá de sus márgenes — se ve como un error de
+maquetado. El impacto es mayor en `reclamaciones/` (55px) y `nosotros/`
+(79px).
+
+**Propuesta (a validar en Fase B, sin cambiar el resultado visual en
+tablet/desktop):**
+- `.spec-table`: agregar `table-layout: fixed` (o `word-break: break-word`
+  en las celdas) para que respete el ancho de su contenedor en vez de
+  expandirse por contenido — patrón estándar y de bajo riesgo.
+- `.form-grid` / `.form-row-2`: agregar `min-width: 0` a los ítems de
+  grid (`.form-row-2`, `.form-field`) para neutralizar el "grid blowout"
+  sin tocar el layout en pantallas donde ya se ve bien.
+- Confirmar visualmente el causante exacto en `nosotros/` y `contacto/`
+  antes de tocar su CSS.
+
+**Riesgo:** Bajo–Medio. La corrección estándar (`table-layout: fixed`,
+`min-width: 0` en ítems de grid) no cambia el render en viewports donde
+hoy no hay overflow (verificado que en 820px/1440px estas páginas ya se
+ven bien); el riesgo es específico a re-verificar que el contenido de la
+tabla/formulario siga siendo legible en 375px tras el cambio.
+
+### H2 — Tres nombres distintos para la misma categoría de servicio ("Mantenimiento")
 
 **Archivos y evidencia:**
 - `servicios/mantenimiento.html:12` — `<title>Mantenimiento Industrial — Servicios — JHT Ingeniería</title>`
@@ -207,7 +309,7 @@ aun tratándose de un error técnico demostrable de consistencia.
 
 ## 6. Hallazgos P2 — Menor (deuda técnica sin impacto visible)
 
-### H2 — Regla CSS redundante: `.service-card { position: relative; }`
+### H3 — Regla CSS redundante: `.service-card { position: relative; }`
 
 **Archivo:** `assets/css/styles.css:1024-1026`
 ```css
@@ -241,7 +343,7 @@ existente en la línea 548, si se quiere conservar esa nota).
 **Riesgo:** Bajo. Verificado que no cambia el render: la propiedad queda
 definida exactamente igual por el bloque de la línea 548.
 
-### H3 — 4 variables CSS declaradas y nunca usadas
+### H4 — 4 variables CSS declaradas y nunca usadas
 
 **Archivo:** `assets/css/styles.css`, bloque `:root` (sección 1)
 
@@ -267,7 +369,7 @@ claro que es intencional.
 **Riesgo:** Bajo — no se usan en ningún selector, eliminarlas no cambia
 el render.
 
-### H4 — 4 clases CSS declaradas y nunca usadas en HTML/JS
+### H5 — 4 clases CSS declaradas y nunca usadas en HTML/JS
 
 **Archivo:** `assets/css/styles.css`
 
@@ -293,7 +395,7 @@ se deja para tu confirmación en vez de borrarlas de una vez.
 
 **Riesgo:** Bajo.
 
-### H5 — Archivo huérfano y con contenido SVG inválido: `assets/img/cliente-01.svg`
+### H6 — Archivo huérfano y con contenido SVG inválido: `assets/img/cliente-01.svg`
 
 **Archivo:** `assets/img/cliente-01.svg` (78 bytes — el resto de
 `cliente-02.svg` a `cliente-06.svg` pesan ~1.3 KB cada uno, es decir,
@@ -335,7 +437,7 @@ de borrarlo (regla 5).
 **Riesgo:** Bajo — no se referencia desde ningún lugar; borrarlo no puede
 romper el render de ninguna página.
 
-### H6 — Comentario de cabecera de `contacto/index.html` desactualizado
+### H7 — Comentario de cabecera de `contacto/index.html` desactualizado
 
 **Archivo:** `contacto/index.html:1-12`
 ```html
@@ -416,7 +518,7 @@ pero cada uno tiene contenido propio — no son copias).
 
 | Archivo | Evidencia de no uso |
 |---|---|
-| `assets/img/cliente-01.svg` | 0 referencias en HTML/CSS del repo (ver H5); contenido además inválido como SVG. |
+| `assets/img/cliente-01.svg` | 0 referencias en HTML/CSS del repo (ver H6); contenido además inválido como SVG. |
 
 Es el único huérfano real detectado. El resto de `assets/img/*`,
 `assets/docs/*` y `assets/video/*` está referenciado desde al menos un
@@ -427,8 +529,8 @@ marcadores intencionales.
 ## 10. Código duplicado y código muerto
 
 - **CSS redundante (no duplicado exacto de bloque, pero sí de efecto):**
-  ver H2 (`.service-card { position: relative; }`).
-- **CSS sin uso:** ver H3 (variables) y H4 (clases).
+  ver H3 (`.service-card { position: relative; }`).
+- **CSS sin uso:** ver H4 (variables) y H5 (clases).
 - **JavaScript:** **no se encontró código muerto real.** Un chequeo
   automatizado inicial marcó `manejarSeleccionArchivos`, `paso`,
   `cargarFragmento` e `inicializarMenu` como "nunca invocadas", pero se
@@ -459,25 +561,32 @@ Todo el resto son SVG de 78 B a 1.4 KB.
 ## 13. Plan de limpieza (para Fase B, tras tu autorización)
 
 Los hallazgos son independientes entre sí — no hay dependencias que
-obliguen a un orden estricto. Se agrupan en 3 lotes por tipo de cambio,
+obliguen a un orden estricto. Se agrupan en 4 lotes por tipo de cambio,
 del más seguro al que más pide tu confirmación de contenido:
 
-**Lote 1 — CSS muerto/redundante (riesgo bajo, cero impacto visual)**
-- H2: eliminar el bloque redundante `.service-card { position: relative; }` (`styles.css:1024-1026`).
-- H3: eliminar (o marcar como reserva) las 4 variables CSS sin uso.
-- H4: eliminar (o marcar como reserva) las 4 clases CSS sin uso — *sujeto
+**Lote 1 — Responsive (riesgo bajo-medio, corrige un bug real visible en mobile)**
+- H1: corregir el overflow horizontal en 375px — `table-layout: fixed`
+  en `.spec-table` (6 fichas de servicio) y `min-width: 0` en los ítems
+  de `.form-row-2`/`.form-field` (`reclamaciones/`, y a confirmar en
+  `contacto/`/`nosotros/` tras inspección visual directa). Se verifica
+  después de aplicar que nada cambie en 820px/1440px.
+
+**Lote 2 — CSS muerto/redundante (riesgo bajo, cero impacto visual)**
+- H3: eliminar el bloque redundante `.service-card { position: relative; }` (`styles.css:1024-1026`).
+- H4: eliminar (o marcar como reserva) las 4 variables CSS sin uso.
+- H5: eliminar (o marcar como reserva) las 4 clases CSS sin uso — *sujeto
   a que confirmes que no se planea usarlas pronto*.
 
-**Lote 2 — Documentación (riesgo nulo, no toca código ejecutable)**
-- H6: actualizar el comentario de cabecera de `contacto/index.html`.
+**Lote 3 — Documentación (riesgo nulo, no toca código ejecutable)**
+- H7: actualizar el comentario de cabecera de `contacto/index.html`.
 
-**Lote 3 — Contenido comercial (requiere tu confirmación explícita antes de tocar, regla 1)**
-- H1: unificar el nombre "Mantenimiento industrial" en las 2 ubicaciones
+**Lote 4 — Contenido comercial (requiere tu confirmación explícita antes de tocar, regla 1)**
+- H2: unificar el nombre "Mantenimiento industrial" en las 2 ubicaciones
   que difieren (`servicios/mantenimiento.html:28`, `contacto/index.html:78`).
 
 **Fuera del plan de limpieza (no se tocan sin instrucción explícita
 adicional):**
-- H5 (`cliente-01.svg`): eliminación de archivo — pendiente de tu
+- H6 (`cliente-01.svg`): eliminación de archivo — pendiente de tu
   autorización explícita, como pide la regla 5 para cualquier borrado.
 - O1/O2 (meta descriptions): mejorables pero fuera de alcance (regla 2:
   "no rediseñes ni mejores nada por tu cuenta" si no es un error
@@ -493,15 +602,20 @@ adicional):**
    trabajo más reciente) o prefieres que parta de otra rama base (por
    ejemplo `claude/new-session-o1d9as`, que es la que hoy alimenta el
    sitio publicado en GitHub Pages)?
-2. **H1 (nombre "Mantenimiento industrial")**: ¿confirmas unificar a
+2. **H1 (overflow horizontal en mobile)**: ¿autorizas la corrección
+   propuesta (`table-layout: fixed` + `min-width: 0` en ítems de grid)?
+   Antes de tocar `nosotros/` y `contacto/` voy a confirmar visualmente el
+   elemento exacto causante en cada una (no lo asumí igual al de
+   `reclamaciones/` sin verificarlo).
+3. **H2 (nombre "Mantenimiento industrial")**: ¿confirmas unificar a
    "Mantenimiento industrial" en las 2 ubicaciones que difieren, o
    prefieres otro texto?
-3. **H5 (`cliente-01.svg`)**: ¿autorizas eliminarlo del repositorio?
-4. **H3/H4 (variables y clases CSS sin uso)**: ¿las elimino, o las dejo
+4. **H6 (`cliente-01.svg`)**: ¿autorizas eliminarlo del repositorio?
+5. **H4/H5 (variables y clases CSS sin uso)**: ¿las elimino, o las dejo
    como reserva documentada para Fase 2 (con un comentario que aclare que
    están ahí a propósito, sin uso actual)?
-5. Nada más bloquea el inicio de la Fase B — el resto de hallazgos (H2,
-   H6) no tiene ambigüedad ni requiere una decisión de tu parte más allá
+6. Nada más bloquea el inicio de la Fase B — el resto de hallazgos (H3,
+   H7) no tiene ambigüedad ni requiere una decisión de tu parte más allá
    de la autorización general para empezar a corregir.
 
 ---
