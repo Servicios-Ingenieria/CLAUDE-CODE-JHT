@@ -572,6 +572,40 @@ button, input, textarea, select {
   color: var(--color-orange-500);
 }
 
+/* Video de fondo por tarjeta de servicio (Cloudinary, ver PENDIENTE en el
+   HTML): cubre la tarjeta detrás del resto del contenido, con un degradé
+   oscuro encima (::after) para que el texto siga siendo legible. Todo lo
+   demás dentro de .service-card sube a z-index:2 para quedar por encima. */
+.service-card__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.5;
+}
+.service-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(18, 22, 26, 0.55) 0%, rgba(18, 22, 26, 0.92) 100%);
+}
+.service-card__icon { z-index: 2; }
+.service-card__number,
+.service-card__tag,
+.service-card h3,
+.service-card p,
+.service-card__list,
+.service-card__actions {
+  position: relative;
+  z-index: 2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-card__video { display: none; }
+}
+
 /* Sectores atendidos: fila de íconos propios en SVG */
 .sector-row {
   display: grid;
@@ -978,6 +1012,8 @@ button, input, textarea, select {
   justify-content: center;
   box-shadow: 0 10px 24px -6px rgba(37, 211, 102, 0.65);
   animation: fabPulse 2.6s ease-in-out infinite;
+  border: none;
+  cursor: pointer;
 }
 .whatsapp-fab svg { width: 30px; height: 30px; color: var(--color-white); }
 .whatsapp-fab:hover { animation-play-state: paused; transform: scale(1.06); }
@@ -1305,4 +1341,102 @@ button, input, textarea, select {
 @media (max-width: 540px) {
   .hero__stats { grid-auto-flow: row; }
   .counters { grid-template-columns: 1fr; }
+  .whatsapp-panel { right: var(--space-sm); left: var(--space-sm); width: auto; }
 }
+
+/* ----------------------------------------------------------------------------
+   17. WIDGET DE WHATSAPP (selector de asesor + servicio, ver
+   components/whatsapp-button.html y assets/js/whatsapp.js)
+---------------------------------------------------------------------------- */
+.whatsapp-widget { position: relative; }
+.whatsapp-panel {
+  position: fixed;
+  right: var(--space-md);
+  bottom: calc(60px + var(--space-md) + 0.75rem);
+  z-index: 801;
+  width: min(300px, calc(100vw - 2 * var(--space-md)));
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 40px -12px rgba(18, 22, 26, 0.4);
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+.whatsapp-panel[hidden] { display: none; }
+.whatsapp-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.whatsapp-panel__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0;
+  color: var(--color-graphite-950);
+}
+.whatsapp-panel__close {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-gray-600);
+}
+.whatsapp-panel__label {
+  font-size: 0.82rem;
+  color: var(--color-gray-600);
+  margin: 0 0 0.5rem;
+}
+.whatsapp-advisors { display: grid; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+.whatsapp-advisor {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--color-offwhite);
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  color: var(--color-graphite-950);
+  transition: border-color var(--transition-base);
+}
+.whatsapp-advisor span { font-family: var(--font-body); font-weight: 400; color: var(--color-gray-600); font-size: 0.78rem; }
+.whatsapp-advisor:hover { border-color: #25d366; }
+.whatsapp-panel__back {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--color-blue-700);
+  cursor: pointer;
+}
+.whatsapp-service-select {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  color: var(--color-graphite-950);
+}
+.whatsapp-send {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: #25d366;
+  border-color: #25d366;
+}
+.whatsapp-send[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+.whatsapp-panel__address {
+  margin: 0.75rem 0 0;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--color-gray-200);
+  font-size: 0.78rem;
+}
+.whatsapp-panel__address a { color: var(--color-blue-700); }
