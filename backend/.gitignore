@@ -1,0 +1,9 @@
+# Config real con credenciales: nunca se commitea, solo config.example.php
+config/config.php
+
+# Archivos subidos por los formularios y el log de reclamos: quedan en el
+# servidor, no en el repositorio.
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/reclamaciones/*
+!storage/reclamaciones/.gitkeep

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <!--
   ARCHIVO: reclamaciones/index.html
-  QUÉ HACE: Libro de reclamaciones virtual (formulario visual). Fase 1:
-  NO tiene envío funcional — el formulario existe solo como maquetado; la
-  conexión a un backend/base de datos que registre y notifique el
-  reclamo se implementa en la Fase 3. El botón de envío está deshabilitado
-  a propósito para dejar explícito que aún no procesa datos reales.
+  QUÉ HACE: Libro de reclamaciones virtual. El formulario ya valida y
+  envía datos reales (ver inicializarFormularioReclamaciones() en
+  assets/js/animations.js), contra RECLAMACION_ENDPOINT — el backend PHP
+  que lo atiende ya existe en backend/api/reclamaciones.php, pero
+  mientras esa constante esté vacía (no se ha desplegado el backend
+  todavía, ver backend/README.md) el envío queda simulado.
 -->
 <html lang="es">
 <head>
@@ -37,50 +38,59 @@
       <div class="container" style="max-width: 820px;">
         <div class="form-note" data-reveal>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8 V13 M12 16 H12.01"/></svg>
-          <span>Este formulario es una maqueta visual (Fase 1). El envío y registro real de reclamos se habilita en la Fase 3, cuando se conecte a la base de datos correspondiente.</span>
+          <span>El formulario valida los campos y muestra una confirmación al enviarlo, pero el envío real al backend (correo + registro) se activa cuando se despliegue backend/api/reclamaciones.php en un hosting con PHP (ver backend/README.md).</span>
         </div>
 
-        <form class="form-grid mt-lg" data-fase="3" onsubmit="return false;">
+        <form class="form-grid mt-lg" id="form-reclamacion" novalidate>
+          <!-- Honeypot anti-spam: oculto por CSS, invisible para una persona.
+               Un bot que rellena todos los campos automáticamente sí lo
+               completa; backend/lib/Validador.php::esBot() lo detecta. -->
+          <div class="form-field" style="position:absolute; left:-9999px;" aria-hidden="true">
+            <label for="rec-sitio-web">No completar este campo</label>
+            <input type="text" id="rec-sitio-web" name="sitio_web" tabindex="-1" autocomplete="off">
+          </div>
+
           <div class="form-row-2">
             <div class="form-field">
-              <label for="rec-tipo">Tipo de documento</label>
-              <select id="rec-tipo" name="tipo_reclamo" disabled>
+              <label for="rec-tipo">Tipo de documento *</label>
+              <select id="rec-tipo" name="tipo_reclamo" required>
+                <option value="" disabled selected>Selecciona una opción</option>
                 <option>Reclamo</option>
                 <option>Queja</option>
               </select>
             </div>
             <div class="form-field">
               <label for="rec-fecha">Fecha</label>
-              <input type="date" id="rec-fecha" name="fecha" disabled>
+              <input type="date" id="rec-fecha" name="fecha">
             </div>
           </div>
 
           <h3 class="mt-lg mb-0">Datos del consumidor</h3>
           <div class="form-row-2">
             <div class="form-field">
-              <label for="rec-nombre">Nombres y apellidos</label>
-              <input type="text" id="rec-nombre" name="nombre" placeholder="Nombre completo" disabled>
+              <label for="rec-nombre">Nombres y apellidos *</label>
+              <input type="text" id="rec-nombre" name="nombre" placeholder="Nombre completo" required>
             </div>
             <div class="form-field">
-              <label for="rec-doc">N.º de documento</label>
-              <input type="text" id="rec-doc" name="documento" placeholder="DNI / CE / RUC" disabled>
+              <label for="rec-doc">N.º de documento *</label>
+              <input type="text" id="rec-doc" name="documento" placeholder="DNI / CE / RUC" required>
             </div>
           </div>
           <div class="form-row-2">
             <div class="form-field">
-              <label for="rec-email">Correo electrónico</label>
-              <input type="email" id="rec-email" name="email" placeholder="correo@ejemplo.com" disabled>
+              <label for="rec-email">Correo electrónico *</label>
+              <input type="email" id="rec-email" name="email" placeholder="correo@ejemplo.com" required>
             </div>
             <div class="form-field">
               <label for="rec-telefono">Teléfono</label>
-              <input type="tel" id="rec-telefono" name="telefono" placeholder="+51 ___ ___ ___" disabled>
+              <input type="tel" id="rec-telefono" name="telefono" placeholder="+51 ___ ___ ___">
             </div>
           </div>
 
           <h3 class="mt-lg mb-0">Detalle del reclamo</h3>
           <div class="form-field">
             <label for="rec-servicio">Servicio relacionado</label>
-            <select id="rec-servicio" name="servicio" disabled>
+            <select id="rec-servicio" name="servicio">
               <option>Estructuras metálicas</option>
               <option>Corte láser</option>
               <option>Soldadura especializada</option>
@@ -91,17 +101,22 @@
             </select>
           </div>
           <div class="form-field">
-            <label for="rec-detalle">Descripción del reclamo o queja</label>
-            <textarea id="rec-detalle" name="detalle" rows="5" placeholder="Describe lo sucedido con el mayor detalle posible" disabled></textarea>
+            <label for="rec-detalle">Descripción del reclamo o queja *</label>
+            <textarea id="rec-detalle" name="detalle" rows="5" placeholder="Describe lo sucedido con el mayor detalle posible" required></textarea>
           </div>
           <div class="form-field">
             <label for="rec-pedido">Pedido del consumidor</label>
-            <textarea id="rec-pedido" name="pedido" rows="3" placeholder="¿Qué solución esperas?" disabled></textarea>
+            <textarea id="rec-pedido" name="pedido" rows="3" placeholder="¿Qué solución esperas?"></textarea>
           </div>
 
-          <button type="submit" class="btn btn--primary btn--block" disabled title="Disponible con envío funcional en la Fase 3">
-            Enviar reclamo (disponible en Fase 3)
+          <button type="submit" class="btn btn--primary btn--block">
+            Enviar reclamo
           </button>
+
+          <div class="form-success" role="status" aria-live="polite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12 L11 15 L16 9"/></svg>
+            <span>¡Gracias! Registramos tu reclamo. Esta confirmación es una simulación mientras el backend no esté desplegado — ver backend/README.md.</span>
+          </div>
         </form>
       </div>
     </section>

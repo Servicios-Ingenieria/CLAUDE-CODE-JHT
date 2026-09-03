@@ -12,8 +12,14 @@
  *        nativa de formularios, valida tipo/peso de los archivos adjuntos
  *        en el propio navegador y muestra un mensaje de confirmación. El
  *        envío usa fetch() contra COTIZACION_ENDPOINT (constante al
- *        inicio de esta sección); mientras esté vacía (Fase 1/2) el envío
- *        queda simulado, sin backend real todavía (eso es Fase 3).
+ *        inicio de esta sección); mientras esté vacía el envío queda
+ *        simulado. El backend real (backend/api/cotizacion.php) ya existe
+ *        en el repositorio — falta desplegarlo en un hosting con PHP
+ *        (Netlify no ejecuta PHP) y completar esta constante con su URL,
+ *        ver backend/README.md.
+ *   3-D. Libro de Reclamaciones (reclamaciones/index.html): misma lógica
+ *        que 3-C pero contra RECLAMACION_ENDPOINT y sin archivos
+ *        adjuntos; backend real en backend/api/reclamaciones.php.
  *   4. Manejo de error de recursos multimedia: si una imagen o el video
  *      del hero no cargan, se aplica un fallback visual en vez de romper
  *      el layout, con aviso claro en consola para depurar.
@@ -175,21 +181,22 @@
   }
 
   /* ---------------------------------------------------------------------
-     CONFIGURACIÓN DEL FORMULARIO DE COTIZACIÓN (constantes fácilmente
+     CONFIGURACIÓN DE LOS FORMULARIOS CON BACKEND (constantes fácilmente
      ajustables).
-     COTIZACION_ENDPOINT es la ÚNICA constante que debe cambiar entre
-     fases: vacía en Fase 1/2 (el envío queda simulado, ver más abajo).
-     En Fase 3 se completa primero con la URL de un Google Apps Script
-     (guarda los campos de texto en una fila de Google Sheets y sube cada
-     PDF/plano adjunto a una carpeta de Google Drive, devolviendo su
-     link) y, al migrar a PHP + MySQL, con el endpoint de ese backend —
-     sin tocar el formulario ni esta lógica de validación, solo esta
-     constante y el script del backend.
+     COTIZACION_ENDPOINT / RECLAMACION_ENDPOINT son las ÚNICAS constantes
+     que hay que completar para activar el envío real: mientras estén
+     vacías, ambos formularios quedan simulados (ver más abajo). El
+     backend PHP que las atiende ya existe en backend/api/*.php — falta
+     desplegarlo en un hosting con PHP (Netlify no ejecuta PHP; ver
+     backend/README.md) y pegar aquí su URL pública, ej.:
+       var COTIZACION_ENDPOINT = 'https://tu-dominio/backend/api/cotizacion.php';
+       var RECLAMACION_ENDPOINT = 'https://tu-dominio/backend/api/reclamaciones.php';
   --------------------------------------------------------------------- */
   var COTIZACION_ENDPOINT = '';
   var COTIZACION_MAX_ARCHIVOS = 3;
   var COTIZACION_MAX_PESO_MB = 10;
   var COTIZACION_EXTENSIONES_PERMITIDAS = ['.pdf', '.dxf', '.dwg', '.step', '.stp', '.igs', '.iges'];
+  var RECLAMACION_ENDPOINT = '';
 
   /* ---------------------------------------------------------------------
      3-C. FORMULARIO DE COTIZACIÓN/CONTACTO
@@ -346,6 +353,53 @@
   }
 
   /* ---------------------------------------------------------------------
+     3-D. LIBRO DE RECLAMACIONES (reclamaciones/index.html)
+     Misma idea que el formulario de cotización pero más simple: sin
+     archivos adjuntos, y "simulado" mientras RECLAMACION_ENDPOINT esté
+     vacío (ver configuración arriba).
+  --------------------------------------------------------------------- */
+  function inicializarFormularioReclamaciones() {
+    var formulario = document.getElementById('form-reclamacion');
+    if (!formulario) return;
+
+    var mensajeExito = formulario.querySelector('.form-success');
+
+    formulario.addEventListener('submit', function (evento) {
+      evento.preventDefault();
+
+      if (!formulario.checkValidity()) {
+        formulario.reportValidity();
+        if (mensajeExito) mensajeExito.classList.remove('is-visible');
+        return;
+      }
+
+      function mostrarConfirmacionYLimpiar() {
+        if (mensajeExito) {
+          mensajeExito.classList.add('is-visible');
+          mensajeExito.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        formulario.reset();
+      }
+
+      if (!RECLAMACION_ENDPOINT) {
+        console.info('[animations.js] Envío simulado del Libro de Reclamaciones (RECLAMACION_ENDPOINT vacío; ver backend/README.md).');
+        mostrarConfirmacionYLimpiar();
+        return;
+      }
+
+      fetch(RECLAMACION_ENDPOINT, { method: 'POST', body: new FormData(formulario) })
+        .then(function (respuesta) {
+          if (!respuesta.ok) throw new Error('Respuesta no OK del servidor: ' + respuesta.status);
+          mostrarConfirmacionYLimpiar();
+        })
+        .catch(function (error) {
+          console.error('[animations.js] Error al enviar el Libro de Reclamaciones:', error);
+          window.alert('No se pudo registrar tu reclamo. Intenta nuevamente o contáctanos por WhatsApp.');
+        });
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      4. FALLBACK DE RECURSOS MULTIMEDIA (imágenes y video del hero)
   --------------------------------------------------------------------- */
   function inicializarFallbackMultimedia() {
@@ -377,6 +431,7 @@
     inicializarFiltroProyectos();
     inicializarAcordeonFaq();
     inicializarFormularioContacto();
+    inicializarFormularioReclamaciones();
     inicializarFallbackMultimedia();
   });
 

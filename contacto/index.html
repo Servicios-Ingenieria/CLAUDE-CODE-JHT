@@ -7,10 +7,12 @@
   archivos, 10 MB c/u — ver COTIZACION_MAX_ARCHIVOS/COTIZACION_MAX_PESO_MB
   en assets/js/animations.js) y una confirmación al enviarlo (ver
   inicializarFormularioContacto() en assets/js/animations.js). El envío
-  usa fetch() contra la constante COTIZACION_ENDPOINT: mientras esté
-  vacía (Fase 1/2) el envío queda simulado, sin backend real todavía —
-  eso es Fase 3. Además: mapa de Google Maps embebido + enlace "Ver en
-  Google Maps", datos de contacto y horario de atención.
+  usa fetch() contra la constante COTIZACION_ENDPOINT: el backend real
+  (backend/api/cotizacion.php) ya existe en el repositorio, pero mientras
+  esa constante esté vacía (no se ha desplegado el backend todavía —
+  Netlify no ejecuta PHP, ver backend/README.md) el envío queda simulado.
+  Además: mapa de Google Maps embebido + enlace "Ver en Google Maps",
+  datos de contacto y horario de atención.
   PENDIENTE (antes de producción): reemplazar la dirección del mapa, el
   teléfono, el correo y el horario por los datos reales de la empresa.
 -->
@@ -51,6 +53,14 @@
             </div>
 
             <form class="form-grid mt-lg" id="form-cotizacion" data-fase="3" novalidate>
+              <!-- Honeypot anti-spam: oculto por CSS, invisible para una persona.
+                   Un bot que rellena todos los campos automáticamente sí lo
+                   completa; backend/lib/Validador.php::esBot() lo detecta. -->
+              <div class="form-field" style="position:absolute; left:-9999px;" aria-hidden="true">
+                <label for="con-sitio-web">No completar este campo</label>
+                <input type="text" id="con-sitio-web" name="sitio_web" tabindex="-1" autocomplete="off">
+              </div>
+
               <div class="form-row-2">
                 <div class="form-field">
                   <label for="con-nombre">Nombre completo *</label>
