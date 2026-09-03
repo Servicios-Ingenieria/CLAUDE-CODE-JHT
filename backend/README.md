@@ -52,10 +52,12 @@ necesario (aunque no molesta dejarlo).
    var COTIZACION_ENDPOINT = 'https://tu-dominio-o-subdominio/backend/api/cotizacion.php';
    var RECLAMACION_ENDPOINT = 'https://tu-dominio-o-subdominio/backend/api/reclamaciones.php';
    ```
-5. Subir los videos/brochure/fotos a Cloudinary con `api/cloudinary-upload.php`
-   (ver el comentario de ese archivo para el ejemplo con `curl`) y pegar
-   cada `secure_url` devuelto en los `<source src="...">` marcados
-   `PENDIENTE` en `index.html` y `servicios/index.html`.
+5. Los 6 videos de fondo de las tarjetas de servicio ya están en
+   Cloudinary (cuenta "iqmsqomd") y sus URLs ya están pegadas en los
+   `<source src="...">` de `index.html` y `servicios/index.html`. Para
+   material nuevo (brochure, fotos de proyectos, logos de clientes) usar
+   `api/cloudinary-upload.php` (ver el comentario de ese archivo para el
+   ejemplo con `curl`) y pegar el `secure_url` devuelto donde corresponda.
 
 ## Pendiente: subida a Google Drive
 

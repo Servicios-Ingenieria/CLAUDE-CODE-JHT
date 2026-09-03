@@ -572,10 +572,11 @@ button, input, textarea, select {
   color: var(--color-orange-500);
 }
 
-/* Video de fondo por tarjeta de servicio (Cloudinary, ver PENDIENTE en el
-   HTML): cubre la tarjeta detrás del resto del contenido, con un degradé
-   oscuro encima (::after) para que el texto siga siendo legible. Todo lo
-   demás dentro de .service-card sube a z-index:2 para quedar por encima. */
+/* Video de fondo por tarjeta de servicio (alojado en Cloudinary, cuenta
+   "iqmsqomd"): cubre la tarjeta detrás del resto del contenido, con un
+   degradé oscuro encima (::after) para que el texto siga siendo legible.
+   Todo lo demás dentro de .service-card sube a z-index:2 para quedar
+   por encima. */
 .service-card__video {
   position: absolute;
   inset: 0;
