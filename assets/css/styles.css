@@ -584,14 +584,18 @@ button, input, textarea, select {
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.92;
 }
 .service-card::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(18, 22, 26, 0.55) 0%, rgba(18, 22, 26, 0.92) 100%);
+  /* Casi transparente arriba (el video se ve nítido donde no hay texto) y
+     oscuro solo desde donde empieza el bloque de texto (.service-card usa
+     justify-content:flex-end, así que el contenido siempre vive en el
+     tercio inferior) para que siga siendo legible sin opacar el video. */
+  background: linear-gradient(180deg, rgba(18, 22, 26, 0.05) 0%, rgba(18, 22, 26, 0.15) 45%, rgba(18, 22, 26, 0.9) 75%, rgba(18, 22, 26, 0.94) 100%);
 }
 .service-card__icon { z-index: 2; }
 .service-card__number,
