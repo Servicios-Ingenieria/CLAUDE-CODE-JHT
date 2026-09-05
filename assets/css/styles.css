@@ -562,14 +562,15 @@ button, input, textarea, select {
   color: var(--color-orange-500);
 }
 .service-card__icon svg { width: 100%; height: 100%; }
-.service-card h3 { color: var(--color-white); margin-bottom: 0.4rem; }
-.service-card p { color: var(--color-gray-400); font-size: 0.92rem; margin-bottom: var(--space-sm); }
+.service-card h3 { color: var(--color-white); margin-bottom: 0.4rem; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85); }
+.service-card p { color: rgba(255, 255, 255, 0.9); font-size: 0.92rem; margin-bottom: var(--space-sm); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85); }
 .service-card__link {
   font-family: var(--font-heading);
   font-size: 0.85rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-orange-500);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
 
 /* Video de fondo por tarjeta de servicio (alojado en Cloudinary, cuenta
@@ -1080,6 +1081,7 @@ button, input, textarea, select {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-orange-500);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   /* Despeja el ícono (position:absolute, ~74px de alto contando su
      offset) — antes de sumar tag/bullets/botón propio, el contenido en
      flex solía quedar más abajo por el min-height + justify-content:
@@ -1097,7 +1099,8 @@ button, input, textarea, select {
   position: relative;
   padding-left: 1.1rem;
   font-size: 0.85rem;
-  color: var(--color-gray-400);
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
 .service-card__list li::before {
   content: '';
